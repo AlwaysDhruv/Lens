@@ -1,0 +1,6 @@
+{
+  "watch": ["."],
+  "ext": "js,json",
+  "ignore": ["uploads/*"],
+  "exec": "node createAdmin.js && node index.js"
+}

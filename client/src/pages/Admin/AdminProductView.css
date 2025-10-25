@@ -1,0 +1,320 @@
+/* ========== ADMIN PRODUCT VIEW PAGE ========== */
+
+.admin-product-view {
+  margin-left: 240px;
+  padding: 2rem;
+  background: var(--admin-bg);
+  min-height: 100vh;
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ===== Header ===== */
+.product-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.product-view-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.product-view-header .btn-back {
+  background: var(--accent-color);
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.product-view-header .btn-back:hover {
+  background: var(--active-bg, #1d4ed8);
+  transform: translateY(-2px);
+}
+
+/* ===== Product Main Container ===== */
+.product-view-container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* ===== Product Image ===== */
+/* ===== Product Image ===== */
+.product-view-image {
+  flex: 1 1 350px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 380px; /* consistent height for all product images */
+}
+
+.product-view-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* keep full image visible */
+  object-position: center; /* center image if smaller */
+  display: block;
+  background: var(--hover-color);
+  transition: transform 0.3s ease;
+}
+
+.product-view-image img:hover {
+  transform: scale(1.02); /* gentle zoom for interactivity */
+}
+
+/* ===== Product Info Section ===== */
+.product-view-info {
+  flex: 1 1 450px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.product-view-info h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+  color: var(--text-color);
+}
+
+.product-view-info .price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  margin-bottom: 0.8rem;
+}
+
+.product-view-info p {
+  margin-bottom: 0.6rem;
+  color: var(--text-color);
+  opacity: 0.9;
+}
+
+.product-view-info strong {
+  color: var(--accent-color);
+}
+
+/* ===== Seller/Store Info Cards ===== */
+.info-card {
+  background: var(--hover-color);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border: 1px solid var(--border-color);
+  transition: background 0.3s ease;
+}
+
+.info-card h4 {
+  margin-bottom: 0.5rem;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+/* ===== Buyer List ===== */
+.buyer-list {
+  margin-top: 1.5rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.buyer-list h3 {
+  background: var(--hover-color);
+  padding: 1rem;
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.buyer-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.buyer-list th,
+.buyer-list td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.buyer-list th {
+  background: var(--hover-color);
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.buyer-list tr:hover {
+  background: var(--hover-color);
+}
+
+/* ===== Action Buttons ===== */
+.product-view-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* --- Edit Button --- */
+.btn-edit {
+  background: #10b981;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-edit:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+/* --- Delete Button --- */
+.btn-delete {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .admin-product-view {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+
+  .product-view-container {
+    flex-direction: column;
+  }
+}
+
+/* ===== Scrollable Image Preview Modal ===== */
+.image-preview-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeInOverlay 0.3s ease-in-out;
+  overflow: auto; /* 👈 enables scrolling for tall/wide images */
+  padding: 2rem;
+}
+
+.image-preview-container {
+  position: relative;
+  max-width: 90vw;
+  max-height: none; /* allow full scroll */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: var(--card-bg);
+  animation: zoomIn 0.3s ease-in-out;
+}
+
+.image-preview-container img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: none; /* no forced height limit */
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* scrollbars styling for image view */
+.image-preview-overlay::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.image-preview-overlay::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.image-preview-overlay::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* ===== Close Button ===== */
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-close:hover {
+  background: var(--active-bg, #1d4ed8);
+  transform: scale(1.1);
+}
+
+/* === Animations === */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

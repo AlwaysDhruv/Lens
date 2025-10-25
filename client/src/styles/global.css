@@ -1,0 +1,174 @@
+/* === GLOBAL VARIABLES === */
+:root {
+  /* Light theme (default) */
+  --primary: #0b76ef;
+  --primary-hover: #0a63cb;
+  --muted: #666;
+  --border: #e0e0e0;
+  --bg: #ffffff;
+  --text: #222;
+  --card-bg: #fff;
+  --input-bg: #fff;
+}
+
+body.dark {
+  /* Dark theme overrides */
+  --primary: #4d9eff;
+  --primary-hover: #75baff;
+  --muted: #aaa;
+  --border: #2a2a3a;
+  --bg: #11121c;
+  --text: #f5f5f5;
+  --card-bg: #1a1b26;
+  --input-bg: #1a1b26;
+}
+
+/* === BASE STYLES === */
+* {
+  box-sizing: border-box;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* === CONTAINERS === */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* === HEADER === */
+.site-header {
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-header .brand {
+  font-weight: 700;
+  color: var(--primary);
+  margin-right: 1rem;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.site-header nav a,
+.site-header nav button {
+  margin-right: 0.6rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.site-header nav a:hover,
+.site-header nav button:hover {
+  color: var(--primary);
+}
+
+/* === GRID SYSTEM === */
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+/* === PRODUCT CARDS === */
+.product-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 0.8rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+  max-width: 100%;
+  height: 160px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+}
+
+/* === INPUTS, TEXTAREAS, SELECTS === */
+input,
+textarea,
+select {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(11, 118, 239, 0.2);
+}
+
+/* === BUTTONS === */
+button {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.55rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background: var(--primary-hover);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* === CART ITEMS === */
+.cart-item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--border);
+  padding: 0.6rem 0;
+}
+
+/* === LINKS === */
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

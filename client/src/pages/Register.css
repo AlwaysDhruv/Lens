@@ -1,0 +1,195 @@
+/* === Full-screen Layout === */
+.register-page.no-header {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #1f2937, #0f172a);
+  font-family: "Poppins", sans-serif;
+  z-index: 9999;
+}
+
+/* === Card === */
+.register-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 400px;
+  color: #f9fafb;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* === Headings === */
+.register-title {
+  font-size: 1.7rem;
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+
+.register-subtitle {
+  text-align: center;
+  color: #9ca3af;
+  margin-bottom: 1.8rem;
+}
+
+/* === Input Groups === */
+.input-group {
+  margin-bottom: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.input-group label {
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+/* === Inputs + Password Fields === */
+.input-group input,
+.password-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transition: background 0.3s, box-shadow 0.3s;
+  font-size: 0.95rem;
+}
+
+.input-group input {
+  padding-right: 2.5rem; /* for consistent width */
+}
+
+.input-group input:focus,
+.password-wrapper input:focus {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.6);
+}
+
+/* === Password Field Wrapper === */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  padding-right: 2.5rem;
+}
+
+/* === Eye Button === */
+.eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #d1d5db;
+  user-select: none;
+  transition: color 0.2s, transform 0.15s;
+}
+
+.eye-btn:hover {
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* === Dropdown (Role Select) === */
+.input-group.select-wrapper {
+  position: relative;
+}
+
+.input-group.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.input-group.select-wrapper select:hover,
+.input-group.select-wrapper select:focus {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.6);
+}
+
+/* Dropdown arrow ONLY for the role field */
+.input-group.select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  right: 14px;
+  top: 65%;
+  transform: translateY(-65%);
+  pointer-events: none;
+  font-size: 0.8rem;
+  color: #d1d5db;
+}
+
+/* Dropdown Options */
+.input-group.select-wrapper select option {
+  background: #1e293b;
+  color: #fff;
+  padding: 0.5rem;
+}
+
+/* === Register Button === */
+.register-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: #2563eb;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.register-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+/* === Footer ("Have an account? Login") === */
+.register-footer {
+  margin-top: 1.2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+.register-footer a {
+  color: #93c5fd;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.register-footer a:hover {
+  color: #60a5fa;
+}

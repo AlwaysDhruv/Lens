@@ -1,0 +1,49 @@
+/* === UNIFIED ADMIN LAYOUT === */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background: var(--admin-bg);
+  transition: background 0.3s ease, color 0.3s ease;
+  color: var(--text-color);
+}
+
+/* === MAIN CONTENT AREA === */
+.admin-main {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 75px; /* collapsed sidebar width */
+  background: var(--admin-bg);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition: margin-left 0.3s ease, background 0.3s ease, color 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* When sidebar expands */
+.admin-sidebar.open ~ .admin-main {
+  margin-left: 230px;
+}
+
+/* === THEME VARIABLES === */
+
+/* Light Mode */
+body.light {
+  --admin-bg: #f4f6fa;
+  --text-color: #1e293b;
+  --border-color: #d1d5db;
+  --hover-color: #e2e8f0;
+  --active-bg: #2563eb;
+  --accent-color: #3b82f6;
+}
+
+/* Dark Mode */
+body.dark {
+  --admin-bg: #111827;
+  --text-color: #f9fafb;
+  --border-color: #1f2937;
+  --hover-color: #1e293b;
+  --active-bg: #3b82f6;
+  --accent-color: #60a5fa;
+}
