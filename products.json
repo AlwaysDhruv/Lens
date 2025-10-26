@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Lens AR Pro",
+    "price": 49999,
+    "description": "Smart augmented-reality goggles with voice assistant and camera integration.",
+    "stock": 25,
+    "category": { "$oid": "672d9e3fa1322c05b5f70101" }
+  },
+  {
+    "name": "VisionX Elite",
+    "price": 39999,
+    "description": "Lightweight AI-driven smart glasses with eye-tracking and gesture control.",
+    "stock": 30,
+    "category": { "$oid": "672d9e3fa1322c05b5f70101" }
+  },
+  {
+    "name": "AquaShield Pro",
+    "price": 2999,
+    "description": "Professional swimming goggles with anti-fog and UV protection.",
+    "stock": 100,
+    "category": { "$oid": "672d9e3fa1322c05b5f70102" }
+  },
+  {
+    "name": "CycleVision Max",
+    "price": 4999,
+    "description": "Cycling goggles with polarized lenses and anti-glare coating.",
+    "stock": 60,
+    "category": { "$oid": "672d9e3fa1322c05b5f70102" }
+  },
+  {
+    "name": "SkyView Shades",
+    "price": 2499,
+    "description": "Stylish polarized sunglasses with matte finish and lightweight frame.",
+    "stock": 80,
+    "category": { "$oid": "672d9e3fa1322c05b5f70103" }
+  },
+  {
+    "name": "UrbanFlex Black",
+    "price": 1999,
+    "description": "Classic black aviator sunglasses with UV400 protection.",
+    "stock": 120,
+    "category": { "$oid": "672d9e3fa1322c05b5f70103" }
+  },
+  {
+    "name": "VirtuaLens VR 2.0",
+    "price": 24999,
+    "description": "High-resolution VR headset with 4K per eye display and haptic feedback.",
+    "stock": 15,
+    "category": { "$oid": "672d9e3fa1322c05b5f70104" }
+  },
+  {
+    "name": "HoloPlay Explorer",
+    "price": 19999,
+    "description": "Standalone VR goggles optimized for 360° gaming and streaming.",
+    "stock": 20,
+    "category": { "$oid": "672d9e3fa1322c05b5f70104" }
+  },
+  {
+    "name": "ClearVision Titanium",
+    "price": 6999,
+    "description": "Prescription-ready titanium glasses frame with blue light filter lenses.",
+    "stock": 40,
+    "category": { "$oid": "672d9e3fa1322c05b5f70105" }
+  },
+  {
+    "name": "OptiFrame Air",
+    "price": 4999,
+    "description": "Lightweight and flexible prescription glasses for daily comfort.",
+    "stock": 70,
+    "category": { "$oid": "672d9e3fa1322c05b5f70105" }
+  }
+]

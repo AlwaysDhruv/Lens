@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer"
 import Welcome from "./pages/Welcome";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -30,12 +30,26 @@ import "./styles/theme.css";
 function LayoutWrapper({ children }) {
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
+  const isSellerPage = location.pathname.startsWith("/seller");
+
   return (
-    <>
-      {!isAdminPage && <Header />}
-      <main style={{ padding: isAdminPage ? "0" : "1rem" }}>{children}</main>
-      {!isAdminPage && <Footer />}
-    </>
+    <div className="app-layout">
+      {/* Show header only for normal user pages */}
+      {!isAdminPage && !isSellerPage && <Header />}
+
+      {/* Main page area */}
+      <main
+        style={{
+          padding: isAdminPage || isSellerPage ? "0" : "1rem",
+          flex: "1",
+        }}
+      >
+        {children}
+      </main>
+
+      {/* ✅ Footer always visible */}
+      <Footer />
+    </div>
   );
 }
 

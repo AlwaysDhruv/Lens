@@ -1,0 +1,122 @@
+.add-category {
+  margin-left: 240px;
+  padding: 2rem;
+  background: var(--admin-bg);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.category-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.category-form {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color);
+  max-width: 600px;
+}
+
+.category-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.category-form input,
+.category-form textarea {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--admin-bg);
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.category-form input:focus,
+.category-form textarea:focus {
+  border-color: var(--accent-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.btn-submit {
+  background: #10b981;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-submit:hover {
+  background: #059669;
+}
+
+.btn-back {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-back:hover {
+  background: var(--active-bg);
+}
+
+@media (max-width: 768px) {
+  .add-category {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+
+  .category-form {
+    padding: 1.5rem;
+  }
+}
+
+.product-list {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.product-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.product-option input {
+  accent-color: var(--accent-color);
+  cursor: pointer;
+}
+
+.no-products {
+  color: #888;
+  text-align: center;
+}

@@ -126,3 +126,38 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: background 0.3s, color 0.3s, border 0.3s;
 }
+
+/* === Global Page Layout === */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content stretches to push footer down */
+.app-layout main {
+  flex: 1;
+}
+
+/* === Footer Styling === */
+.app-footer {
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
+  background: var(--sidebar-bg);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+}
+
+/* Light mode footer */
+body.light .app-footer {
+  background: #ffffff;
+  color: #1e293b;
+}
+
+/* Dark mode footer */
+body.dark .app-footer {
+  background: #0f172a;
+  color: #f8fafc;
+  border-color: #1f2937;
+}

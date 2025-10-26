@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../../services/api";
-import { useNavigate } from "react-router-dom";
 import "./SellerProductForm.css";
 
-export default function ProductForm() {
+export default function EditProduct() {
+  const { id } = useParams();
   const [form, setForm] = useState({
     name: "",
     price: "",
@@ -12,44 +13,79 @@ export default function ProductForm() {
     stock: 1,
   });
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState("");
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
   const nav = useNavigate();
 
-  // 🧩 Load Seller's Categories
+  // === Fetch product data for editing ===
   useEffect(() => {
-    async function fetchCategories() {
+    async function loadProduct() {
       try {
-        const res = await api.get("/categories");
-        setCategories(res.data);
+        const res = await api.get(`/products/${id}`);
+        const product = res.data;
+
+        setForm({
+          name: product.name || "",
+          price: product.price || "",
+          category: product.category?._id || "",
+          description: product.description || "",
+          stock: product.stock || 1,
+        });
+
+        if (product.imageUrl) setImagePreview(product.imageUrl);
       } catch (err) {
-        console.error("Error fetching categories:", err);
+        console.error("❌ Error fetching product:", err);
+        alert("Failed to load product details.");
       }
     }
-    fetchCategories();
-  }, []);
 
+    async function loadCategories() {
+      try {
+        const res = await api.get("/categories/my"); // Seller’s own categories
+        setCategories(res.data);
+      } catch (err) {
+        console.error("❌ Failed to load categories:", err);
+      }
+    }
+
+    loadProduct();
+    loadCategories();
+  }, [id]);
+
+  // === Handle input change ===
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // === Handle image selection ===
+  const handleFileChange = (e) => {
+    const selected = e.target.files[0];
+    setFile(selected);
+    if (selected) {
+      setImagePreview(URL.createObjectURL(selected));
+    }
+  };
+
+  // === Submit form ===
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const fd = new FormData();
       Object.entries(form).forEach(([key, val]) => fd.append(key, val));
       if (file) fd.append("image", file);
 
-      await api.post("/products", fd, {
+      await api.put(`/products/${id}`, fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("✅ Product created successfully!");
+      alert("✅ Product updated successfully!");
       nav("/seller/products");
     } catch (err) {
-      console.error(err);
-      alert("❌ Failed to create product");
+      console.error("❌ Update failed:", err);
+      alert("Failed to update product.");
     } finally {
       setLoading(false);
     }
@@ -58,13 +94,14 @@ export default function ProductForm() {
   return (
     <div className="seller-form-container">
       <div className="seller-form-header">
-        <h2>Add New Product</h2>
+        <h2>Edit Product</h2>
         <button className="btn-back" onClick={() => nav("/seller/products")}>
           ← Back
         </button>
       </div>
 
       <form onSubmit={handleSubmit} className="seller-form">
+        {/* === Product Name === */}
         <div className="form-group">
           <label>Product Name</label>
           <input
@@ -76,6 +113,7 @@ export default function ProductForm() {
           />
         </div>
 
+        {/* === Price & Stock === */}
         <div className="form-row">
           <div className="form-group">
             <label>Price (₹)</label>
@@ -102,6 +140,7 @@ export default function ProductForm() {
           </div>
         </div>
 
+        {/* === Category Dropdown === */}
         <div className="form-group">
           <label>Category</label>
           <select
@@ -110,28 +149,16 @@ export default function ProductForm() {
             onChange={handleChange}
             required
           >
-            <option value="">Select a category</option>
-            {categories.map((cat) => (
-              <option key={cat._id} value={cat._id}>
-                {cat.name}
+            <option value="">Select Category</option>
+            {categories.map((c) => (
+              <option key={c._id} value={c._id}>
+                {c.name}
               </option>
             ))}
           </select>
-
-          <div className="category-helper">
-            <span>
-              Missing a category?{" "}
-              <button
-                type="button"
-                className="link-btn"
-                onClick={() => nav("/seller/categories/new")}
-              >
-                Add New Category
-              </button>
-            </span>
-          </div>
         </div>
 
+        {/* === Description === */}
         <div className="form-group">
           <label>Description</label>
           <textarea
@@ -144,17 +171,30 @@ export default function ProductForm() {
           />
         </div>
 
+        {/* === Current Image Preview === */}
         <div className="form-group">
-          <label>Product Image</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+          <label>Current Image</label>
+          {imagePreview ? (
+            <div className="image-preview-box">
+              <img src={imagePreview} alt="Product Preview" />
+            </div>
+          ) : (
+            <p style={{ color: "#888" }}>No image uploaded</p>
+          )}
         </div>
 
-        <button type="submit" className="btn-submit" disabled={loading}>
-          {loading ? "Uploading..." : "Create Product"}
+        {/* === Upload New Image === */}
+        <div className="form-group">
+          <label>Replace Image (optional)</label>
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+        </div>
+
+        <button
+          type="submit"
+          className="btn-submit"
+          disabled={loading}
+        >
+          {loading ? "Updating..." : "Save Changes"}
         </button>
       </form>
     </div>
