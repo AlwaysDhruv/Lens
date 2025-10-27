@@ -16,7 +16,6 @@ export default function ProductForm() {
   const [categories, setCategories] = useState([]);
   const nav = useNavigate();
 
-  // 🧩 Load Seller's Categories
   useEffect(() => {
     async function fetchCategories() {
       try {
@@ -36,9 +35,14 @@ export default function ProductForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const fd = new FormData();
-      Object.entries(form).forEach(([key, val]) => fd.append(key, val));
+      Object.entries(form).forEach(([key, val]) => {
+        // Don’t append empty category if skipped
+        if (key === "category" && val === "") return;
+        fd.append(key, val);
+      });
       if (file) fd.append("image", file);
 
       await api.post("/products", fd, {
@@ -84,8 +88,8 @@ export default function ProductForm() {
               type="number"
               value={form.price}
               onChange={handleChange}
-              placeholder="0"
               required
+              min="0"
             />
           </div>
 
@@ -103,14 +107,13 @@ export default function ProductForm() {
         </div>
 
         <div className="form-group">
-          <label>Category</label>
+          <label>Category (optional)</label>
           <select
             name="category"
             value={form.category}
             onChange={handleChange}
-            required
           >
-            <option value="">Select a category</option>
+            <option value="">Skip category</option>
             {categories.map((cat) => (
               <option key={cat._id} value={cat._id}>
                 {cat.name}
@@ -126,7 +129,7 @@ export default function ProductForm() {
                 className="link-btn"
                 onClick={() => nav("/seller/categories/new")}
               >
-                Add New Category
+                ➕ Add New Category
               </button>
             </span>
           </div>

@@ -11,9 +11,12 @@ export default function CategoryView() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [editData, setEditData] = useState({ name: "", description: "" });
+  const [allProducts, setAllProducts] = useState([]);
+  const [attachMode, setAttachMode] = useState(false);
 
   useEffect(() => {
     loadCategory();
+    fetchAllProducts();
   }, [id]);
 
   async function loadCategory() {
@@ -26,10 +29,19 @@ export default function CategoryView() {
         description: res.data.description || "",
       });
     } catch (err) {
-      console.error("❌ Error loading category:", err);
+      console.error("Error loading category:", err);
       alert("Failed to load category");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function fetchAllProducts() {
+    try {
+      const res = await api.get("/products/my");
+      setAllProducts(res.data);
+    } catch (err) {
+      console.error("Error fetching products:", err);
     }
   }
 
@@ -40,7 +52,7 @@ export default function CategoryView() {
       setEditing(false);
       loadCategory();
     } catch (err) {
-      console.error("❌ Error updating category:", err);
+      console.error("Error updating category:", err);
       alert("Failed to update category");
     }
   }
@@ -51,7 +63,7 @@ export default function CategoryView() {
       await api.put(`/categories/${id}/remove-product`, { productId });
       loadCategory();
     } catch (err) {
-      console.error("❌ Failed to remove product:", err);
+      console.error("Failed to remove product:", err);
     }
   }
 
@@ -62,13 +74,29 @@ export default function CategoryView() {
       alert("🗑 Category deleted");
       nav("/seller/categories");
     } catch (err) {
-      console.error("❌ Delete failed:", err);
+      console.error("Delete failed:", err);
       alert("Cannot delete category (it might still have products)");
+    }
+  }
+
+  async function attachProduct(productId) {
+    try {
+      await api.put(`/products/${productId}`, { category: id });
+      await loadCategory();
+      alert("✅ Product attached!");
+    } catch (err) {
+      console.error("Attach failed:", err);
+      alert("❌ Failed to attach product.");
     }
   }
 
   if (loading) return <p className="category-loading">Loading...</p>;
   if (!category) return <p className="category-error">Category not found.</p>;
+
+  // Products that are not already in this category
+  const availableProducts = allProducts.filter(
+    (p) => !category.products.find((cp) => cp._id === p._id)
+  );
 
   return (
     <div className="seller-category-view">
@@ -79,6 +107,9 @@ export default function CategoryView() {
             <>
               <button className="btn-edit" onClick={() => setEditing(true)}>
                 ✎ Edit
+              </button>
+              <button className="btn-attach" onClick={() => setAttachMode(!attachMode)}>
+                📎 Attach Product
               </button>
               <button className="btn-delete" onClick={deleteCategory}>
                 🗑 Delete
@@ -97,38 +128,57 @@ export default function CategoryView() {
         </div>
       </div>
 
-      {/* --- Edit Form --- */}
+      {/* Edit Form */}
       {editing && (
         <div className="category-edit-form">
           <label>Name</label>
           <input
             value={editData.name}
-            onChange={(e) =>
-              setEditData({ ...editData, name: e.target.value })
-            }
+            onChange={(e) => setEditData({ ...editData, name: e.target.value })}
           />
 
           <label>Description</label>
           <textarea
             rows="3"
             value={editData.description}
-            onChange={(e) =>
-              setEditData({ ...editData, description: e.target.value })
-            }
+            onChange={(e) => setEditData({ ...editData, description: e.target.value })}
           />
         </div>
       )}
 
-      {/* --- Product List --- */}
+      {/* Attach Product Panel */}
+      {attachMode && (
+        <div className="attach-panel">
+          <h3>Attach a Product</h3>
+          {availableProducts.length > 0 ? (
+            availableProducts.map((p) => (
+              <div key={p._id} className="attach-row">
+                <span>
+                  {p.name} — ₹{p.price}
+                </span>
+                <button
+                  className="btn-attach-now"
+                  onClick={() => attachProduct(p._id)}
+                >
+                  ➕ Attach
+                </button>
+              </div>
+            ))
+          ) : (
+            <p style={{ color: "#888" }}>All your products are already in this category.</p>
+          )}
+        </div>
+      )}
+
+      {/* Product Table */}
       <div className="category-products">
         <h3>Products in this Category</h3>
-
         {category.products && category.products.length > 0 ? (
           <table>
             <thead>
               <tr>
-                <th>Product Name</th>
-                <th>Price (₹)</th>
+                <th>Product</th>
+                <th>Price</th>
                 <th>Stock</th>
                 <th>Actions</th>
               </tr>
@@ -137,20 +187,17 @@ export default function CategoryView() {
               {category.products.map((p) => (
                 <tr key={p._id}>
                   <td>{p.name}</td>
-                  <td>{p.price}</td>
+                  <td>₹{p.price}</td>
                   <td>{p.stock}</td>
                   <td>
-                    <button
-                      className="btn-remove"
-                      onClick={() => removeProduct(p._id)}
-                    >
+                    <button className="btn-remove" onClick={() => removeProduct(p._id)}>
                       ❌ Remove
                     </button>
                     <button
                       className="btn-view"
-                      onClick={() => nav(`/seller/products/${p._id}`)}
+                      onClick={() => nav(`/seller/products/${p._id}/edit`)}
                     >
-                      🔍 View
+                      🔍 View/Edit
                     </button>
                   </td>
                 </tr>

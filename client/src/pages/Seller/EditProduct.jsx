@@ -5,6 +5,8 @@ import "./SellerProductForm.css";
 
 export default function EditProduct() {
   const { id } = useParams();
+  const nav = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     price: "",
@@ -12,53 +14,48 @@ export default function EditProduct() {
     description: "",
     stock: 1,
   });
+
   const [file, setFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const nav = useNavigate();
+  const [loading, setLoading] = useState(true); // initial loading state
 
-  // === Fetch product data for editing ===
+  // === Load product & categories on mount ===
   useEffect(() => {
-    async function loadProduct() {
+    async function fetchData() {
       try {
-        const res = await api.get(`/products/${id}`);
-        const product = res.data;
+        // Fetch product details
+        const productRes = await api.get(`/products/${id}`);
+        const product = productRes.data;
 
+        // Fetch categories (so dropdown has data)
+        const catRes = await api.get("/categories");
+        setCategories(catRes.data);
+
+        // Pre-fill form with product data
         setForm({
           name: product.name || "",
           price: product.price || "",
-          category: product.category?._id || "",
+          category: product.category?._id || "", // handles optional category
           description: product.description || "",
           stock: product.stock || 1,
         });
 
+        // Show current image if exists
         if (product.imageUrl) setImagePreview(product.imageUrl);
       } catch (err) {
-        console.error("❌ Error fetching product:", err);
-        alert("Failed to load product details.");
+        console.error("❌ Failed to load product details:", err);
+        alert("Failed to load product data.");
+      } finally {
+        setLoading(false);
       }
     }
-
-    async function loadCategories() {
-      try {
-        const res = await api.get("/categories/my"); // Seller’s own categories
-        setCategories(res.data);
-      } catch (err) {
-        console.error("❌ Failed to load categories:", err);
-      }
-    }
-
-    loadProduct();
-    loadCategories();
+    fetchData();
   }, [id]);
 
-  // === Handle input change ===
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  // === Handle input changes ===
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  // === Handle image selection ===
   const handleFileChange = (e) => {
     const selected = e.target.files[0];
     setFile(selected);
@@ -67,14 +64,18 @@ export default function EditProduct() {
     }
   };
 
-  // === Submit form ===
+  // === Submit the edited data ===
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       const fd = new FormData();
-      Object.entries(form).forEach(([key, val]) => fd.append(key, val));
+      Object.entries(form).forEach(([key, val]) => {
+        // Skip empty category (optional)
+        if (key === "category" && val === "") return;
+        fd.append(key, val);
+      });
       if (file) fd.append("image", file);
 
       await api.put(`/products/${id}`, fd, {
@@ -84,12 +85,20 @@ export default function EditProduct() {
       alert("✅ Product updated successfully!");
       nav("/seller/products");
     } catch (err) {
-      console.error("❌ Update failed:", err);
-      alert("Failed to update product.");
+      console.error("❌ Failed to update product:", err);
+      alert("Update failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="seller-form-container">
+        <p style={{ textAlign: "center", marginTop: "40px" }}>Loading product...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="seller-form-container">
@@ -101,7 +110,7 @@ export default function EditProduct() {
       </div>
 
       <form onSubmit={handleSubmit} className="seller-form">
-        {/* === Product Name === */}
+        {/* Product Name */}
         <div className="form-group">
           <label>Product Name</label>
           <input
@@ -113,7 +122,7 @@ export default function EditProduct() {
           />
         </div>
 
-        {/* === Price & Stock === */}
+        {/* Price & Stock */}
         <div className="form-row">
           <div className="form-group">
             <label>Price (₹)</label>
@@ -122,7 +131,7 @@ export default function EditProduct() {
               type="number"
               value={form.price}
               onChange={handleChange}
-              placeholder="0"
+              min="0"
               required
             />
           </div>
@@ -140,16 +149,15 @@ export default function EditProduct() {
           </div>
         </div>
 
-        {/* === Category Dropdown === */}
+        {/* Category */}
         <div className="form-group">
-          <label>Category</label>
+          <label>Category (optional)</label>
           <select
             name="category"
             value={form.category}
             onChange={handleChange}
-            required
           >
-            <option value="">Select Category</option>
+            <option value="">Skip category</option>
             {categories.map((c) => (
               <option key={c._id} value={c._id}>
                 {c.name}
@@ -158,7 +166,7 @@ export default function EditProduct() {
           </select>
         </div>
 
-        {/* === Description === */}
+        {/* Description */}
         <div className="form-group">
           <label>Description</label>
           <textarea
@@ -171,29 +179,33 @@ export default function EditProduct() {
           />
         </div>
 
-        {/* === Current Image Preview === */}
+        {/* Image Preview */}
         <div className="form-group">
           <label>Current Image</label>
           {imagePreview ? (
             <div className="image-preview-box">
-              <img src={imagePreview} alt="Product Preview" />
+              <img
+                src={imagePreview}
+                alt="Product"
+                style={{
+                  width: "200px",
+                  borderRadius: "8px",
+                  border: "1px solid #ddd",
+                }}
+              />
             </div>
           ) : (
-            <p style={{ color: "#888" }}>No image uploaded</p>
+            <p style={{ color: "#777" }}>No image uploaded</p>
           )}
         </div>
 
-        {/* === Upload New Image === */}
+        {/* Upload New Image */}
         <div className="form-group">
           <label>Replace Image (optional)</label>
           <input type="file" accept="image/*" onChange={handleFileChange} />
         </div>
 
-        <button
-          type="submit"
-          className="btn-submit"
-          disabled={loading}
-        >
+        <button type="submit" className="btn-submit" disabled={loading}>
           {loading ? "Updating..." : "Save Changes"}
         </button>
       </form>

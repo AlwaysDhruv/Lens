@@ -1,73 +1,144 @@
-// client/src/pages/Seller/Store.jsx
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
+import "./SellerStore.css";
 
-export default function Store() {
-  const [store, setStore] = useState({
+export default function SellerStore() {
+  const [store, setStore] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [form, setForm] = useState({
     name: "",
     description: "",
     type: "",
     address: "",
   });
+  const [loading, setLoading] = useState(true);
 
+  // 🧩 Load seller's store
   useEffect(() => {
-    // fetch seller's current store info if it exists
-    api
-      .get("/stores")
-      .then((res) => {
-        const userStore = res.data.find(
-          (s) => s.owner?._id === JSON.parse(localStorage.getItem("user"))?._id
-        );
-        if (userStore) setStore(userStore);
-      })
-      .catch((err) => console.error(err));
+    async function fetchStore() {
+      try {
+        const res = await api.get("/stores/my");
+        setStore(res.data);
+        setForm({
+          name: res.data.name || "",
+          description: res.data.description || "",
+          type: res.data.type || "",
+          address: res.data.address || "",
+        });
+      } catch (err) {
+        if (err.response?.status === 404) {
+          console.warn("No store found, user can create new one.");
+        } else {
+          console.error("Failed to fetch store:", err);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchStore();
   }, []);
 
-  const handleChange = (e) => {
-    setStore({ ...store, [e.target.name]: e.target.value });
+  // 🧠 Handle form inputs
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  // 💾 Save or update store
+  const handleSave = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await api.post("/stores", form);
+      setStore(res.data);
+      setEditMode(false);
+      alert("✅ Store information saved!");
+    } catch (err) {
+      console.error("❌ Save failed:", err);
+      alert("Failed to save store information");
+    }
   };
 
-  const saveStore = async (e) => {
-    e.preventDefault();
-    await api.post("/stores", store);
-    alert("Store info saved!");
-  };
+  if (loading) return <p>Loading store data...</p>;
 
   return (
-    <div>
-      <h3>Store Information</h3>
-      <form onSubmit={saveStore}>
-        <input
-          name="name"
-          placeholder="Store Name"
-          value={store.name}
-          onChange={handleChange}
-        />
-        <input
-          name="type"
-          placeholder="Type (e.g., Optical, Sunglasses)"
-          value={store.type}
-          onChange={handleChange}
-        />
-        <textarea
-          name="description"
-          placeholder="Description"
-          value={store.description}
-          onChange={handleChange}
-        />
-        <input
-          name="address"
-          placeholder="Address"
-          value={store.address}
-          onChange={handleChange}
-        />
-        <button type="submit">Save</button>
-      </form>
+    <div className="seller-store">
+      <div className="store-header">
+        <h2>Your Store</h2>
+        {store && !editMode && (
+          <button className="btn-edit" onClick={() => setEditMode(true)}>
+            ✏️ Edit
+          </button>
+        )}
+      </div>
 
-      {store._id && (
-        <div style={{ marginTop: "1rem" }}>
+      {/* 🧾 Store Form */}
+      {editMode || !store ? (
+        <form onSubmit={handleSave} className="store-form">
+          <label>Store Name</label>
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            required
+          />
+
+          <label>Type</label>
+          <input
+            name="type"
+            value={form.type}
+            onChange={handleChange}
+            placeholder="e.g. Optical, Sunglasses"
+          />
+
+          <label>Description</label>
+          <textarea
+            name="description"
+            rows="3"
+            value={form.description}
+            onChange={handleChange}
+          />
+
+          <label>Address</label>
+          <input
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+          />
+
+          <button type="submit" className="btn-save">
+            {store ? "Save Changes" : "Create Store"}
+          </button>
+
+          {store && (
+            <button
+              type="button"
+              className="btn-cancel"
+              onClick={() => {
+                setEditMode(false);
+                setForm({
+                  name: store.name,
+                  description: store.description,
+                  type: store.type,
+                  address: store.address,
+                });
+              }}
+            >
+              Cancel
+            </button>
+          )}
+        </form>
+      ) : (
+        <div className="store-details">
+          <p><strong>Name:</strong> {store.name}</p>
+          <p><strong>Type:</strong> {store.type}</p>
+          <p><strong>Description:</strong> {store.description}</p>
+          <p><strong>Address:</strong> {store.address}</p>
+          <hr />
           <p><strong>Total Products:</strong> {store.totalProducts}</p>
-          <p><strong>Categories:</strong> {store.categories?.join(", ") || "None"}</p>
+          <p>
+            <strong>Categories:</strong>{" "}
+            {store.categories?.length
+              ? store.categories.join(", ")
+              : "No categories yet"}
+          </p>
         </div>
       )}
     </div>

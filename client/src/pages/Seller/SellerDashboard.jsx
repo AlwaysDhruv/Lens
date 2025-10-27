@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { SellerLayoutProvider } from "../../context/SellerLayoutContext";
 import SellerSidebar from "../../components/SellerSidebar";
 import Products from "./Products";
-import ProductForm from "./ProductForm";
+import ProductForm from "./SellerProductForm";
 import Orders from "./Orders";
 import Store from "./Store";
 import SellerProductView from "./SellerProductView";
@@ -11,7 +11,7 @@ import "./SellerDashboard.css";
 import SellerCategories from "./SellerCategories";
 import AddCategory from "./AddCategory";
 import EditProduct from "./EditProduct";
-import CategoryView from "./CategoryView";
+import CategoryView from "./SellerCategoryView";
 
 export default function SellerDashboard() {
   // layout provider holds the sidebar state globally for all pages
