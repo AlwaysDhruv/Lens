@@ -1,0 +1,154 @@
+.universal-msg-center {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem 1.5rem;
+  background: var(--bg-secondary, #fff);
+  color: var(--text-primary, #222);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+.universal-msg-center h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.composer select,
+.composer input,
+.composer textarea {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.composer textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.composer button {
+  background: #0078ff;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.composer button:hover {
+  background: #005fcc;
+}
+
+.msg-feed {
+  border-top: 1px solid #ddd;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.msg-card {
+  padding: 0.7rem;
+  border-radius: 10px;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+}
+
+.msg-card.sent {
+  background: #e6f3ff;
+  border-left: 4px solid #0078ff;
+}
+
+.msg-card.received {
+  background: #fff4e6;
+  border-left: 4px solid #ffa200;
+}
+
+.msg-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.msg-meta {
+  display: block;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.3rem;
+  text-align: right;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #999;
+  margin-top: 2rem;
+}
+.search-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.search-controls select,
+.search-controls input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+}
+
+.recipient-box input {
+  z-index: 5;
+  position: relative;
+}
+
+.suggestion-list {
+  position: absolute;
+  width: 100%;
+  background: var(--card-bg, #fff);
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 4px;
+  z-index: 9999; /* <-- FIX visibility */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.suggestion-item {
+  color: var(--text-color, #fff);
+  padding: 9px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.suggestion-item:hover {
+  background: var(--hover-color, #f1f1f1);
+}
+
+.suggestion-item .email {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}

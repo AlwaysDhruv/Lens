@@ -11,31 +11,34 @@ export default function AdminDashboard() {
   });
 
   useEffect(() => {
-    async function loadStats() {
-      try {
-        const [usersRes, productsRes, ordersRes] = await Promise.all([
-          api.get("/admin/users"),
-          api.get("/admin/products"),
-          api.get("/admin/orders"),
-        ]);
+  async function loadStats() {
+    try {
+      const [usersRes, productsRes, ordersRes, unreadRes] = await Promise.all([
+        api.get("/admin/users"),
+        api.get("/admin/products"),
+        api.get("/admin/orders"),
+        api.get("/messages/admin-unread-count"), // ✅ new
+      ]);
 
-        const users = usersRes.data;
-        const products = productsRes.data;
-        const orders = ordersRes.data;
+      const users = usersRes.data;
+      const products = productsRes.data;
+      const orders = ordersRes.data;
+      const unread = unreadRes.data.unread;
 
-        setStats({
-          users: users.length,
-          sellers: users.filter((u) => u.role === "seller").length,
-          products: products.length,
-          orders: orders.length,
-        });
-      } catch (err) {
-        console.error("Failed to load dashboard stats:", err);
-      }
+      setStats({
+        users: users.length,
+        sellers: users.filter((u) => u.role === "seller").length,
+        products: products.length,
+        orders: orders.length,
+        unreadMessages: unread, // ✅ store unread count
+      });
+    } catch (err) {
+      console.error("Failed to load dashboard stats:", err);
     }
+  }
 
-    loadStats();
-  }, []);
+  loadStats();
+}, []);
 
   return (
     <div className="admin-content">
@@ -56,6 +59,18 @@ export default function AdminDashboard() {
         <div className="card stat-card">
           <h3>Orders</h3>
           <p>{stats.orders}</p>
+        </div>
+      
+        {/* ✅ NEW */}
+        <div className="card stat-card highlight">
+          <h3>Inbox Messages</h3>
+          <p>{stats.unreadMessages || 0} New</p>
+          <button
+            onClick={() => (window.location.href = "/messages")}
+            className="view-btn"
+          >
+            View Messages
+          </button>
         </div>
       </div>
     </div>

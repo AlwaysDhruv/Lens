@@ -12,6 +12,7 @@ import SellerCategories from "./SellerCategories";
 import AddCategory from "./AddCategory";
 import EditProduct from "./EditProduct";
 import CategoryView from "./SellerCategoryView";
+import UniversalMessages from "../UniversalMessages"; // <- ADD THIS
 
 export default function SellerDashboard() {
   // layout provider holds the sidebar state globally for all pages
@@ -32,6 +33,7 @@ export default function SellerDashboard() {
             <Route path="products" element={<Products />} />
             <Route path="products/:id/edit" element={<EditProduct />} />
             <Route path="categories/:id" element={<CategoryView />} />
+            <Route path="messages" element={<UniversalMessages />} />
           </Routes>
         </main>
       </div>

@@ -30,13 +30,12 @@ export default function Header() {
                   <Link to="/cart">Cart ({cart.length})</Link>
                 </>
               )}
-
               {role === "seller" && <Link to="/seller">Seller</Link>}
 
               {role === "admin" && (
                 <>
-                  <Link to="/admin/users">Users</Link>
-                  <Link to="/admin/products">Products</Link>
+                  <Link to="/admin/dashboard">Dashboard</Link>
+
                 </>
               )}
 

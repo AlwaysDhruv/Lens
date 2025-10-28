@@ -1,14 +1,17 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const contactSchema = new mongoose.Schema({
-  name: { type: String },
-  email: { type: String, required: true },
-  message: { type: String, required: true },
-  from: { type: String, enum: ['user', 'admin'], default: 'user' }, // who sent it
-  subject: { type: String, default: '' },
-  replied: { type: Boolean, default: false },
-  replyMessage: { type: String, default: '' },
-  repliedAt: { type: Date },
-}, { timestamps: true });
+const contactSchema = new mongoose.Schema(
+  {
+    threadId: { type: String, index: true }, // 🔗 Thread grouping
+    from: { type: String, enum: ["admin", "seller", "user"], required: true },
+    fromEmail: { type: String, required: true },
+    to: { type: String, enum: ["admin", "seller", "user"], required: true },
+    toEmail: { type: String, required: true },
+    subject: { type: String, required: true },
+    message: { type: String, required: true },
+    replied: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Contact', contactSchema);
+module.exports = mongoose.model("Contact", contactSchema);

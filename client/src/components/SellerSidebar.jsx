@@ -110,10 +110,7 @@ export default function SellerSidebar() {
           <span className="link-text">Store</span>
         </NavLink>
 
-        <NavLink
-          to="/seller/messages"
-          className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-        >
+        <NavLink to="/seller/messages" className="nav-link">
           <MessageSquare className="icon" />
           <span className="link-text">Messages</span>
         </NavLink>

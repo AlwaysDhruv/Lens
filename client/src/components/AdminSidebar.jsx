@@ -83,12 +83,13 @@ export default function AdminSidebar() {
           </span>
         </NavLink>
 
-        <NavLink to="/admin/messages" className="nav-link">
-          <MessageSquare className="icon" />
-          <span className={`link-text ${isOpen ? "visible" : ""}`}>
-            Messages
-          </span>
-        </NavLink>
+      <NavLink
+        to="/messages"
+        className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+      >
+        <MessageSquare className="icon" />
+        <span className={`link-text ${isOpen ? "visible" : ""}`}>Messages</span>
+      </NavLink>
       </nav>
 
       <div className="sidebar-footer">
