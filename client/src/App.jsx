@@ -13,14 +13,6 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Contact from "./pages/Contact";
 
-// 🛒 Buyer Pages
-import Home from "./pages/Home";
-import ProductPage from "./components/ProductPage";
-import Search from "./pages/Search";
-import Cart from "./pages/Cart";
-import Confirm from "./pages/Confirm";
-import Payment from "./pages/Payment";
-
 // 🧑‍💼 Seller Pages
 import SellerDashboard from "./pages/Seller/SellerDashboard";
 
@@ -84,14 +76,6 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/contact" element={<Contact />} />
-
-          {/* --- 🛍️ Buyer Routes --- */}
-          <Route path="/home" element={<Home />} />
-          <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/confirm" element={<Confirm />} />
-          <Route path="/payment" element={<Payment />} />
 
           {/* --- 💬 Messaging System (All Roles) --- */}
           <Route

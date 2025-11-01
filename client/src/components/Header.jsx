@@ -24,12 +24,6 @@ export default function Header() {
         <nav className="nav-links">
           {user ? (
             <>
-              {role !== "admin" && (
-                <>
-                  <Link to="/search">Search</Link>
-                  <Link to="/cart">Cart ({cart.length})</Link>
-                </>
-              )}
               {role === "seller" && <Link to="/seller">Seller</Link>}
 
               {role === "admin" && (
