@@ -6,8 +6,14 @@ const userSchema = new mongoose.Schema({
   password: String,
   role: { type: String, enum: ['admin', 'seller', 'buyer'], default: 'buyer' },
   store: { type: mongoose.Schema.Types.ObjectId, ref: 'Store' },
-  otp: String,             // store OTP
-  otpExpires: Date         // OTP expiration time
+  otp: String,
+  otpExpires: Date,
+
+  // --- ADDED FOR BUYER PROFILE ---
+  address: { type: String, default: '' },
+  phone: { type: String, default: '' }
+  // -------------------------------
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

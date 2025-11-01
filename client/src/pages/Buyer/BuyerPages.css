@@ -1,0 +1,369 @@
+/* Common Page Styles */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+/* Form Styles (reusing auth form styles) */
+.auth-form-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Home Page */
+.filters-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.filters-container .form-input {
+  flex-grow: 1;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Product Detail Page */
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.product-detail-image-wrapper {
+  width: 100%;
+}
+.product-detail-image {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+.product-detail-name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.product-detail-store {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.product-detail-price {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+.product-detail-stock {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+}
+.product-detail-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Cart Page */
+.cart-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cart-checkout-form {
+  padding: 1.5rem;
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.cart-total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+.cart-checkout-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* My Orders Page */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.order-card {
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background: var(--background-medium);
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.order-card-body {
+  padding: 1rem;
+}
+.order-card-body ul {
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+.order-card-footer {
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
+  text-align: right;
+}
+.order-status {
+  text-transform: capitalize;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+.order-status.pending { background: #fef3c7; color: #92400e; }
+.order-status.confirmed { background: #dbeafe; color: #1e40af; }
+.order-status.shipped { background: #cce7f8; color: #0c598a; }
+.order-status.delivered { background: #dcfce7; color: #166534; }
+.order-status.cancelled { background: #fee2e2; color: #991b1b; }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .product-detail-layout,
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+}
+/* --- ADD THESE STYLES FOR PROFILE NAVIGATION --- */
+
+.profile-navigation {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: -2px; /* Aligns with border */
+}
+
+.profile-navigation a {
+  padding: 0.75rem 1.25rem;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.profile-navigation a:hover {
+  color: var(--text-normal);
+}
+
+.profile-navigation a.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+/* --- ADD/REPLACE STYLES FOR MY ORDERS PAGE --- */
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.order-card {
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden; /* To make header radius work */
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: var(--background-medium);
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.order-card-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.order-card-header strong {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.order-total-price {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+.order-status {
+  text-transform: capitalize;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.order-status.pending { background: #fef3c7; color: #92400e; }
+.order-status.confirmed { background: #dbeafe; color: #1e40af; }
+.order-status.shipped { background: #cce7f8; color: #0c598a; }
+.order-status.delivered { background: #dcfce7; color: #166534; }
+.order-status.cancelled { background: #fee2e2; color: #991b1b; }
+
+.order-card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.order-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--background-medium);
+  border-radius: 4px;
+  align-items: flex-start;
+}
+
+.order-item-image {
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.order-item-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.order-item-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.order-item-seller {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  min-width: 150px;
+}
+
+.order-card-footer {
+  padding: 1rem 1.5rem;
+  background: var(--background-medium);
+  border-top: 1px solid var(--border-color);
+  line-height: 1.6;
+}
+
+.order-card-footer strong {
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.order-card-footer p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* --- ADD THESE STYLES FOR THE CANCEL BUTTON --- */
+
+/* Make the header grid accommodate the button */
+.order-card-header {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Use grid */
+  display: grid;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.order-card-header > div {
+  /* keep flex column for the label/value */
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* This is the new button container */
+.order-header-actions {
+  justify-self: flex-end; /* Push button to the right */
+}
+
+.btn-cancel-order {
+  background-color: #dc3545; /* Bootstrap danger red */
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+.btn-cancel-order:hover {
+  background-color: #c82333; /* Darker red */
+}
+
+/* Update status style for the new status */
+.order-status.cancellation_requested { 
+  background: #fff3cd; /* Light yellow */
+  color: #856404; /* Dark yellow */
+}

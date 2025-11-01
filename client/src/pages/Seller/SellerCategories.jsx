@@ -15,7 +15,10 @@ export default function SellerCategories() {
   async function loadCategories() {
     try {
       setLoading(true);
-      const res = await api.get("/categories");
+      // --- THIS IS THE FIX ---
+      // Fetch from the protected seller-only route
+      const res = await api.get("/categories/seller");
+      // ---------------------
       setCategories(res.data);
     } catch (err) {
       console.error("❌ Failed to load categories:", err);
@@ -28,6 +31,7 @@ export default function SellerCategories() {
   async function deleteCategory(id) {
     if (!window.confirm("⚠ Delete this category permanently?")) return;
     try {
+      // This will now send a valid ObjectId
       await api.delete(`/categories/${id}`);
       alert("🗑 Category deleted");
       loadCategories();
@@ -74,12 +78,14 @@ export default function SellerCategories() {
                 <td className="actions">
                   <button
                     className="btn-view"
+                    // This will now navigate with a valid ObjectId
                     onClick={() => nav(`/seller/categories/${cat._id}`)}
                   >
                     ✎ Edit
                   </button>
                   <button
                     className="btn-delete"
+                    // This will now delete with a valid ObjectId
                     onClick={() => deleteCategory(cat._id)}
                   >
                     🗑 Delete

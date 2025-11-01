@@ -57,16 +57,22 @@ export default function CategoryView() {
     }
   }
 
-  async function removeProduct(productId) {
-    if (!window.confirm("Remove this product from category?")) return;
+async function removeProduct(productId) {
+    if (!window.confirm("Remove this product from this category? (This will not delete the product)")) return;
+    
     try {
-      await api.put(`/categories/${id}/remove-product`, { productId });
+      // This calls the product update route and sets its category to null
+      await api.put(`/products/${productId}`, { category: null });
+      // Reload the category to see the product disappear from the list
       loadCategory();
+      // Also reload the list of all products for the "Attach" panel
+      fetchAllProducts();
     } catch (err) {
       console.error("Failed to remove product:", err);
+      alert("❌ Failed to remove product.");
     }
   }
-
+  
   async function deleteCategory() {
     if (!window.confirm("⚠ Delete this category permanently?")) return;
     try {

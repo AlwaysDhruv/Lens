@@ -13,6 +13,14 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Contact from "./pages/Contact";
 
+// --- 🛍️ BUYER PAGES (New) ---
+import HomePage from "./pages/Buyer/HomePage";
+import ProductDetailPage from "./pages/Buyer/ProductDetailPage";
+import CartPage from "./pages/Buyer/CartPage";
+import ProfilePage from "./pages/Buyer/ProfilePage";
+import MyOrdersPage from "./pages/Buyer/MyOrdersPage";
+// --------------------------
+
 // 🧑‍💼 Seller Pages
 import SellerDashboard from "./pages/Seller/SellerDashboard";
 
@@ -26,7 +34,6 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import AdminNewMessage from "./pages/Admin/AdminNewMessage";
 
 // 💬 Universal Messaging System (Threaded)
-import MessagesCenter from "./pages/MessagesCenter";
 import UniversalMessages from "./pages/UniversalMessages";
 import ThreadView from "./pages/ThreadView";
 
@@ -34,7 +41,7 @@ import "./styles/theme.css";
 
 /* ==========================================================
    🌐 Layout Wrapper
-   - Hides Header/Footer on Admin & Seller sections
+   ... (This component remains the same as in your file)
 ========================================================== */
 function LayoutWrapper({ children }) {
   const location = useLocation();
@@ -43,9 +50,7 @@ function LayoutWrapper({ children }) {
 
   return (
     <div className="app-layout">
-      {/* Show header only for buyer/public pages */}
       {!isAdminPage && !isSellerPage && <Header />}
-
       <main
         style={{
           padding: isAdminPage || isSellerPage ? "0" : "1rem",
@@ -54,12 +59,11 @@ function LayoutWrapper({ children }) {
       >
         {children}
       </main>
-
-      {/* Footer hidden on admin/seller */}
       {!isAdminPage && !isSellerPage && <Footer />}
     </div>
   );
 }
+
 
 /* ==========================================================
    🚀 Main App Router
@@ -77,11 +81,41 @@ export default function App() {
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/contact" element={<Contact />} />
 
+          {/* --- 🛍️ Buyer Routes (Public & Protected) --- */}
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
+          
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute roles={["buyer"]}>
+                <CartPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute roles={["buyer", "seller", "admin"]}>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-orders"
+            element={
+              <ProtectedRoute roles={["buyer"]}>
+                <MyOrdersPage />
+              </ProtectedRoute>
+            }
+          />
+
           {/* --- 💬 Messaging System (All Roles) --- */}
+          {/* Note: Updated 'user' to 'buyer' to match schema */}
           <Route
             path="/messages"
             element={
-              <ProtectedRoute roles={["admin", "seller", "user"]}>
+              <ProtectedRoute roles={["admin", "seller", "buyer"]}>
                 <UniversalMessages />
               </ProtectedRoute>
             }
@@ -89,7 +123,7 @@ export default function App() {
           <Route
             path="/messages/:id"
             element={
-              <ProtectedRoute roles={["admin", "seller", "user"]}>
+              <ProtectedRoute roles={["admin", "seller", "buyer"]}>
                 <ThreadView />
               </ProtectedRoute>
             }
@@ -114,6 +148,7 @@ export default function App() {
               </ProtectedRoute>
             }
           >
+            {/* ... (existing admin routes) ... */}
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="products" element={<AdminProducts />} />

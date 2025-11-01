@@ -13,7 +13,12 @@ const orderSchema = new mongoose.Schema({
   phone: String,
   total: Number,
   payment: { type: String, enum: ['cash', 'upi'] },
-  status: { type: String, enum: ['pending','confirmed','shipped','delivered','cancelled'], default: 'pending' }
+  status: { 
+    type: String, 
+    // --- ADDED 'cancellation_requested' ---
+    enum: ['pending','confirmed','shipped','delivered','cancelled', 'cancellation_requested'], 
+    default: 'pending' 
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);

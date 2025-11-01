@@ -52,7 +52,11 @@ router.post("/", auth, roles(["seller"]), upload.single("image"), async (req, re
 // --------------------------------------
 router.get("/", async (req, res) => {
   try {
-    const products = await Product.find()
+    // --- THIS IS THE FIX ---
+    // We add { stock: { $gt: 0 } } to only find products
+    // where the stock is greater than 0.
+    const products = await Product.find({ stock: { $gt: 0 } })
+    // ---------------------
       .populate("category", "name")
       .populate("store", "name")
       .populate("seller", "name");
@@ -77,7 +81,7 @@ router.get("/my", auth, roles(["seller"]), async (req, res) => {
 });
 
 // --------------------------------------
-// 🔍 Get Single Product by ID
+// 🔍 Get Single Product by ID (Seller only)
 // --------------------------------------
 router.get("/:id", auth, roles(["seller"]), async (req, res) => {
   try {
@@ -93,6 +97,26 @@ router.get("/:id", auth, roles(["seller"]), async (req, res) => {
     res.json(product);
   } catch (err) {
     console.error("❌ Failed to fetch product:", err);
+    res.status(500).json({ msg: "Failed to fetch product details" });
+  }
+});
+
+// --------------------------------------
+// 🔍 Get Single Product Details (PUBLIC)
+// --------------------------------------
+router.get("/detail/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id)
+      .populate("category", "name")
+      .populate("store", "name")
+      .populate("seller", "name");
+      
+    if (!product) {
+      return res.status(404).json({ msg: "Product not found" });
+    }
+    res.json(product);
+  } catch (err) {
+     console.error("❌ Failed to fetch public product:", err);
     res.status(500).json({ msg: "Failed to fetch product details" });
   }
 });
@@ -127,7 +151,7 @@ router.put("/:id", auth, roles(["seller"]), upload.single("image"), async (req, 
     }
 
     // Allow unassigning category completely
-    if (!category) {
+    if (category === null || category === '') { // Allow unsetting
       if (product.category) {
         await Category.findByIdAndUpdate(product.category, {
           $pull: { products: product._id },
@@ -175,7 +199,7 @@ router.delete("/:id", auth, roles(["seller"]), async (req, res) => {
     }
 
     // Remove from store count
-    await Store.findByIdAndUpdate(req.user.store, { $inc: { totalProducts: -1 } });
+    await Store.findByIdAndUpdate(product.store, { $inc: { totalProducts: -1 } });
 
     await product.deleteOne();
     res.json({ msg: "🗑 Product deleted successfully" });
