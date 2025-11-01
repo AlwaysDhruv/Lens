@@ -45,7 +45,7 @@ export default function SellerCategories() {
         <h2>📦 Categories</h2>
         <button
           className="btn-new-category"
-          onClick={() => nav("/seller/categories/create")}
+          onClick={() => nav("/seller/categories/new")}
         >
           ➕ New Category
         </button>

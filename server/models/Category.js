@@ -2,15 +2,20 @@ const mongoose = require("mongoose");
 
 const categorySchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, trim: true, unique: true },
-    slug: { type: String, unique: true }, // keep it unique
+    seller: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true, // 🔒 links category to its creator
+    },
+    name: { type: String, required: true, trim: true },
+    slug: { type: String },
     description: { type: String },
     products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   },
   { timestamps: true }
 );
 
-// 🧠 Generate slug automatically before saving
+// 🧠 Generate slug automatically
 categorySchema.pre("save", function (next) {
   if (this.isModified("name")) {
     this.slug = this.name
@@ -20,5 +25,8 @@ categorySchema.pre("save", function (next) {
   }
   next();
 });
+
+// ✅ Make name unique *per seller*, not globally
+categorySchema.index({ seller: 1, name: 1 }, { unique: true });
 
 module.exports = mongoose.model("Category", categorySchema);

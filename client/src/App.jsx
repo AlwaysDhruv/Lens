@@ -15,7 +15,7 @@ import Contact from "./pages/Contact";
 
 // 🛒 Buyer Pages
 import Home from "./pages/Home";
-import ProductPage from "./pages/ProductPage";
+import ProductPage from "./components/ProductPage";
 import Search from "./pages/Search";
 import Cart from "./pages/Cart";
 import Confirm from "./pages/Confirm";

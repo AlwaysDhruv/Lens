@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 const SellerLayoutContext = createContext();
 
 export function SellerLayoutProvider({ children }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(v => !v);
 
   return (
