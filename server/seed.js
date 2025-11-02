@@ -1,149 +1,120 @@
-// server/seed.js
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-dotenv.config();
-
+const User = require("./models/User");
+const Store = require("./models/Store");
 const Category = require("./models/Category");
 const Product = require("./models/Product");
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/lensGallery";
+// ✅ Replace with your database
+mongoose.connect("mongodb://127.0.0.1:27017/lensgallery", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-async function main() {
-  await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-  console.log("✅ connected to mongo");
+// ✅ Get seller email from command line
+const sellerEmail = process.argv[2];
 
+if (!sellerEmail) {
+  console.log("❌ Please provide seller email:");
+  console.log("   node seed/addDataForSeller.js seller@gmail.com");
+  process.exit();
+}
+
+const categoriesData = [
+  { name: "Sunglasses", description: "UV-protected eyewear for outdoor style." },
+  { name: "Prescription Glasses", description: "Frames for corrective lenses." },
+  { name: "Kids Frames", description: "Safe, flexible frames for children." },
+  { name: "Sports Eyewear", description: "Impact-resistant eyewear for athletes." },
+  { name: "Blue Light Glasses", description: "Protective eyewear for screen use." },
+  { name: "Premium Collection", description: "Designer-grade handcrafted frames." },
+  { name: "Budget Frames", description: "Affordable, durable eyewear." },
+  { name: "Reading Glasses", description: "Magnified clarity for reading." },
+  { name: "Stylish Metal Frames", description: "Lightweight high-grade metal frames." },
+  { name: "Rimless Minimal Frames", description: "Ultra-light rimless elegant frames." }
+];
+
+const productsData = [
+  { name: "UrbanShield Sunglasses", price: 1299, stock: 12, category: "Sunglasses" },
+  { name: "AeroVision Sport Shades", price: 1899, stock: 9, category: "Sports Eyewear" },
+  { name: "BlueGuard Anti-Glare", price: 999, stock: 20, category: "Blue Light Glasses" },
+  { name: "Classic Oval Readers", price: 699, stock: 25, category: "Reading Glasses" },
+  { name: "KidsFlex HERO", price: 799, stock: 18, category: "Kids Frames" },
+  { name: "PureMetal Gold Frame", price: 2199, stock: 7, category: "Stylish Metal Frames" },
+  { name: "FeatherRim Ultra Light", price: 2599, stock: 5, category: "Rimless Minimal Frames" },
+  { name: "VisionCare Rx Frame", price: 1499, stock: 30, category: "Prescription Glasses" },
+  { name: "OptiBudget Basic", price: 499, stock: 40, category: "Budget Frames" },
+  { name: "Luxora Signature", price: 3299, stock: 6, category: "Premium Collection" },
+  { name: "CoolWave Street Glasses", price: 1399, stock: 14, category: "Sunglasses" },
+  { name: "SportX Performance Goggles", price: 1999, stock: 8, category: "Sports Eyewear" },
+  { name: "WorkShield BlueCut", price: 1199, stock: 19, category: "Blue Light Glasses" },
+  { name: "CrystalLens Reader Pro", price: 799, stock: 16, category: "Reading Glasses" },
+  { name: "LightFrame Essential", price: 1299, stock: 28, category: "Prescription Glasses" },
+  { name: "ValueFit Everyday", price: 449, stock: 35, category: "Budget Frames" },
+  { name: "VelvetGloss Premium", price: 3499, stock: 4, category: "Premium Collection" },
+  { name: "AirLite Minimal", price: 2199, stock: 10, category: "Rimless Minimal Frames" },
+  { name: "KiddoColor Rainbow", price: 699, stock: 22, category: "Kids Frames" },
+  { name: "PilotMetal Aviator", price: 1599, stock: 17, category: "Stylish Metal Frames" }
+];
+
+async function run() {
   try {
-    // clear
-    await Product.deleteMany({});
-    await Category.deleteMany({});
+    console.log(`🔍 Looking for seller: ${sellerEmail}`);
+    const seller = await User.findOne({ email: sellerEmail });
 
-    // create categories
-    const categories = await Category.insertMany([
-      {
-        name: "Smart Goggles",
-        description: "High-tech goggles with AR, sensors and connectivity.",
-      },
-      {
-        name: "Outdoor Goggles",
-        description: "Durable goggles for biking, skiing and outdoor sports.",
-      },
-      {
-        name: "Indoor Goggles",
-        description: "Anti-reflective and safety goggles for indoor use.",
-      },
-      {
-        name: "Blue Filter Goggles",
-        description: "Blue-light blocking eyewear for screen-heavy users.",
-      },
-      {
-        name: "Water Goggles",
-        description: "Waterproof and anti-fog goggles for swimming/diving.",
-      },
-    ]);
-
-    // prepare products (each points to a category)
-    const productsData = [
-      {
-        name: "Aero Vision Classic Goggles",
-        price: 1299,
-        category: categories[1]._id,
-        description: "Lightweight, anti-fog goggles perfect for rides and workouts. UV400 protection included.",
-        stock: 40,
-        imageUrl: "/uploads/aero-vision-classic.jpg",
-      },
-      {
-        name: "ZoomTech Night Vision Goggles",
-        price: 2599,
-        category: categories[0]._id,
-        description: "Advanced night vision goggles with IR sensor and fog-resistant lenses.",
-        stock: 25,
-        imageUrl: "/uploads/zoomtech-night-vision.jpg",
-      },
-      {
-        name: "OpticPro Sport Goggles",
-        price: 1799,
-        category: categories[1]._id,
-        description: "Designed for athletes. Scratch-proof, aerodynamic design with adjustable strap.",
-        stock: 30,
-        imageUrl: "/uploads/opticpro-sport.jpg",
-      },
-      {
-        name: "SkyLens BlueShield Goggles",
-        price: 2199,
-        category: categories[3]._id,
-        description: "Blue light filtering lenses ideal for long computer sessions.",
-        stock: 50,
-        imageUrl: "/uploads/skylens-blue.jpg",
-      },
-      {
-        name: "HydroEdge Water Sports Goggles",
-        price: 999,
-        category: categories[4]._id,
-        description: "High-seal waterproof goggles with anti-fog film.",
-        stock: 60,
-        imageUrl: "/uploads/hydroedge-water.jpg",
-      },
-      {
-        name: "VisionPro Digital Goggles",
-        price: 4499,
-        category: categories[0]._id,
-        description: "Smart digital display goggles with AR overlay and Bluetooth connectivity.",
-        stock: 15,
-        imageUrl: "/uploads/visionpro-digital.jpg",
-      },
-      {
-        name: "SunGuard Polarized Goggles",
-        price: 1899,
-        category: categories[1]._id,
-        description: "Polarized outdoor goggles for skiing, biking, and hiking.",
-        stock: 45,
-        imageUrl: "/uploads/sunguard-polarized.jpg",
-      },
-      {
-        name: "CrystalView Anti-Reflective Goggles",
-        price: 1599,
-        category: categories[2]._id,
-        description: "Anti-reflective, shatterproof goggles designed for clear indoor vision.",
-        stock: 35,
-        imageUrl: "/uploads/crystalview-anti-reflective.jpg",
-      },
-      {
-        name: "AquaShield Diving Goggles",
-        price: 2999,
-        category: categories[4]._id,
-        description: "Wide-lens waterproof diving goggles with pressure equalization valve.",
-        stock: 20,
-        imageUrl: "/uploads/aquashield-diving.jpg",
-      },
-      {
-        name: "TechView AR Smart Goggles",
-        price: 6999,
-        category: categories[0]._id,
-        description: "Augmented reality-enabled smart goggles with voice commands and HUD display.",
-        stock: 10,
-        imageUrl: "/uploads/techview-ar.jpg",
-      },
-    ];
-
-    const insertedProducts = await Product.insertMany(productsData);
-
-    // populate Category.products arrays
-    for (const cat of categories) {
-      const ids = insertedProducts
-        .filter((p) => p.category.toString() === cat._id.toString())
-        .map((p) => p._id);
-      if (ids.length) {
-        await Category.findByIdAndUpdate(cat._id, { $set: { products: ids } });
-      }
+    if (!seller) {
+      console.log("❌ Seller not found.");
+      return;
     }
 
-    console.log("✅ seed completed");
+    console.log("✅ Seller found:", seller.name);
+
+    console.log("🔍 Finding store...");
+    const store = await Store.findOne({ owner: seller._id });
+
+    if (!store) {
+      console.log("❌ This seller does not have a store.");
+      return;
+    }
+
+    console.log("✅ Store found:", store.name);
+
+    console.log("🧹 Removing old categories/products for this seller...");
+    await Category.deleteMany({ seller: seller._id });
+    await Product.deleteMany({ seller: seller._id });
+
+    console.log("📦 Creating categories...");
+    const categoryMap = {};
+    for (const c of categoriesData) {
+      const category = await Category.create({
+        ...c,
+        seller: seller._id,
+        products: []
+      });
+      categoryMap[c.name] = category;
+    }
+
+    console.log("🕶 Creating products...");
+    for (const p of productsData) {
+      const product = await Product.create({
+        name: p.name,
+        price: p.price,
+        stock: p.stock,
+        description: p.description || p.name,
+        seller: seller._id,
+        store: store._id,
+        category: categoryMap[p.category]._id,
+      });
+
+      categoryMap[p.category].products.push(product._id);
+      await categoryMap[p.category].save();
+    }
+
+    console.log("🎉 Done! Data inserted successfully.");
+    
   } catch (err) {
-    console.error("❌ seed error", err);
+    console.error("❌ Error:", err);
   } finally {
-    await mongoose.disconnect();
-    console.log("🔌 disconnected");
+    mongoose.connection.close();
   }
 }
 
-main();
+run();

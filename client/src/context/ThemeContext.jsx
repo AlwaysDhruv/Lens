@@ -2,18 +2,35 @@ import React, { createContext, useEffect, useState } from "react";
 
 export const ThemeContext = createContext();
 
+const VALID = ["light", "dark"];
+
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const initial = (() => {
+    try {
+      const t = localStorage.getItem("theme");
+      return VALID.includes(t) ? t : "dark";
+    } catch {
+      return "dark";
+    }
+  })();
+
+  const [theme, setTheme] = useState(initial);
 
   useEffect(() => {
-    document.body.className = theme; // apply theme globally
-    localStorage.setItem("theme", theme);
+    // remove any prior theme classes we control, then add the current one
+    document.body.classList.remove(...VALID);
+    document.body.classList.add(theme);
+    try {
+      localStorage.setItem("theme", theme);
+    } catch {
+      // ignore storage errors (e.g. privacy mode)
+    }
   }, [theme]);
 
-  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+  const toggleTheme = () => setTheme(prev => (prev === "dark" ? "light" : "dark"));
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

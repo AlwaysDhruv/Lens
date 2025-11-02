@@ -48,32 +48,28 @@ router.get("/", async (req, res) => {
   }
 });
 
-// 👤 Get seller’s own store (with live stats)
-// 👤 Get seller’s own store (with product stats)
 router.get("/my", auth, roles(["seller"]), async (req, res) => {
   try {
     const store = await Store.findOne({ owner: req.user._id })
       .populate("owner", "name email");
+
     if (!store) return res.status(404).json({ msg: "No store found" });
 
-    // 🧮 Count products belonging to this store
     const Product = require("../models/Product");
+    const Category = require("../models/Category");
+
+    // Count only products from this store
     const totalProducts = await Product.countDocuments({ store: store._id });
 
-    // 🧩 Recalculate categories from Category model
-    const Category = require("../models/Category");
-    const categories = await Category.find({}, "name");
-
-    // 📝 Update live stats
-    store.totalProducts = totalProducts;
-    store.categories = categories.map((c) => c.name);
-    await store.save();
+    // ✅ Fetch categories created by THIS seller
+    const categories = await Category.find({ seller: req.user._id }).select("name");
 
     res.json({
       ...store.toObject(),
       totalProducts,
-      categories: store.categories,
+      categories: categories.map((c) => c.name),
     });
+
   } catch (err) {
     console.error("❌ Failed to load store:", err);
     res.status(500).json({ msg: "Failed to load store" });

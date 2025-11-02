@@ -1,0 +1,381 @@
+/* -------------------------
+   Seller Orders - Theme matched
+   ------------------------- */
+
+/* Root hooks (use theme variables already defined in global CSS) */
+.seller-main .seller-orders {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--text-color);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Top controls: search + refresh */
+.seller-orders-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.seller-orders-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.seller-orders-controls input[type="search"],
+.seller-orders-controls input[type="text"] {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-color);
+  min-width: 260px;
+  outline: none;
+  transition: box-shadow .16s ease, border-color .12s ease;
+}
+
+.seller-orders-controls input:focus {
+  box-shadow: 0 6px 18px rgba(59,130,246,0.08);
+  border-color: var(--accent-color);
+}
+
+.btn-refresh {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent-color);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(59,130,246,0.12);
+}
+
+/* Filters row */
+.seller-filter-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: all .14s ease;
+}
+
+.filter-btn.active {
+  background: var(--active-bg);
+  color: #fff;
+  border-color: var(--active-bg);
+  box-shadow: 0 8px 24px rgba(59,130,246,0.12);
+}
+
+/* Orders list container */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Order card */
+.order-card {
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--sidebar-bg); /* slightly different from page bg */
+  padding: 14px;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.04);
+  overflow: hidden;
+}
+
+/* Order header (left: buyer info, right: totals) */
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.order-card-header .left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.order-card-header .left .order-id {
+  font-weight: 800;
+  color: var(--text-color);
+}
+
+.order-card-header .left .buyer-meta {
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.order-card-header .right {
+  text-align: right;
+  min-width: 140px;
+}
+
+.order-card-header .right .total {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--text-color);
+}
+
+.order-card-header .right .meta {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* Items container */
+.order-card-body {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Single item row */
+.order-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid rgba(0,0,0,0.03);
+}
+
+/* product thumbnail */
+.order-item .thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+/* product info */
+.order-item .info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.order-item .info .title {
+  font-weight: 700;
+  color: var(--text-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-item .info .meta {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* actions column */
+.order-item .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  min-width: 250px;
+}
+
+/* status badge (styled using theme) */
+.order-status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: capitalize;
+  min-width: 140px;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+/* status color tokens (use theme variables for contrast) */
+.order-status.pending {
+  color: #334155;
+  background: rgba(99,102,241,0.06);
+  border-color: rgba(99,102,241,0.12);
+}
+
+.order-status.confirmed {
+  color: #0c4a6e;
+  background: rgba(14,165,233,0.06);
+  border-color: rgba(14,165,233,0.12);
+}
+
+.order-status.shipped {
+  color: #075985;
+  background: rgba(2,132,199,0.06);
+  border-color: rgba(2,132,199,0.12);
+}
+
+.order-status.out_for_delivery {
+  color: #92400e;
+  background: rgba(249,115,22,0.06);
+  border-color: rgba(249,115,22,0.12);
+}
+
+.order-status.delivered {
+  color: #065f46;
+  background: rgba(16,185,129,0.06);
+  border-color: rgba(16,185,129,0.12);
+}
+
+.order-status.cancellation_requested {
+  color: #7f1d1d;
+  background: rgba(239,68,68,0.06);
+  border-color: rgba(239,68,68,0.12);
+}
+
+.order-status.cancelled {
+  color: #374151;
+  background: rgba(107,114,128,0.06);
+  border-color: rgba(107,114,128,0.12);
+}
+
+/* actions buttons (match main UI feel) */
+.action-btn {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 800;
+  min-width: 120px;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+
+/* emphasis / primary action */
+.action-btn.primary {
+  background: var(--accent-color);
+  color: #fff;
+  border-color: var(--accent-color);
+  box-shadow: 0 8px 26px rgba(59,130,246,0.12);
+}
+
+/* destructive approve cancellation */
+.action-btn.danger {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
+  box-shadow: 0 8px 26px rgba(220,38,38,0.12);
+}
+
+/* subtle hover */
+.action-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* order footer (optional) */
+.order-card-footer {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* small helper: compact meta */
+.meta-small {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* Confirm modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.modal-dialog {
+  width: min(680px, 96%);
+  background: var(--sidebar-bg);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.24);
+  padding: 18px;
+  border: 1px solid var(--border-color);
+}
+
+.modal-dialog h3 {
+  margin: 0 0 8px 0;
+  font-weight: 800;
+  color: var(--text-color);
+}
+
+.modal-dialog p {
+  color: #4b5563;
+}
+
+/* Toasts */
+.toasts {
+  position: fixed;
+  right: 16px;
+  top: 16px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast {
+  padding: 10px 12px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.08);
+  background: #fef3c7;
+  color: #92400e;
+  min-width: 220px;
+}
+
+/* responsive tweaks */
+@media (max-width: 900px) {
+  .order-card {
+    padding: 12px;
+  }
+  .order-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .order-item .actions {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  .order-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .order-card-header .right { text-align: left; }
+}
+
+/* support for low-contrast accessibility: larger fonts when user prefers */
+@media (prefers-reduced-motion: reduce) {
+  .action-btn, .filter-btn, .btn-refresh {
+    transition: none;
+  }
+}

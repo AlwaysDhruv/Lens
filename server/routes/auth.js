@@ -182,20 +182,31 @@ router.post('/reset-password', async (req, res) => {
 router.put("/update-details", auth, async (req, res) => {
   try {
     const { name, address, phone } = req.body;
-    
+
     const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
     }
 
-    user.name = name || user.name;
-    user.address = address || user.address;
-    user.phone = phone || user.phone;
+    // ✅ Name can be updated but NOT cleared
+    if (name !== undefined && name.trim() !== "") {
+      user.name = name;
+    }
+
+    // ✅ Allow clearing or updating address
+    if (address !== undefined) {
+      user.address = address;
+    }
+
+    // ✅ Allow clearing or updating phone
+    if (phone !== undefined) {
+      user.phone = phone;
+    }
 
     await user.save();
 
     const updatedUser = await User.findById(req.user.id).select("-password");
-    
+
     res.json({
       msg: "Profile updated successfully",
       user: updatedUser,
@@ -205,4 +216,5 @@ router.put("/update-details", auth, async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 });
+
 module.exports = router;

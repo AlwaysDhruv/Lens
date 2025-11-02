@@ -111,20 +111,32 @@
 }
 
 /* === Role Badge === */
+/* Role Badge Styles */
 .role-badge {
-  align-self: flex-start;
-  padding: 4px 10px;
-  border-radius: 12px;
-  text-transform: capitalize;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #fff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 6px;
+  display: inline-block;
 }
 
-.role-badge.admin { background: #4a6cf7; }
-.role-badge.seller { background: #f59e0b; }
-.role-badge.user,
-.role-badge.buyer { background: #10b981; }
+/* Already exists? Keep admin/seller same */
+.role-badge.admin {
+  background: #3b82f6;
+  color: white;
+}
+
+.role-badge.seller {
+  background: #10b981;
+  color: white;
+}
+
+/* ✅ Add buyer role badge */
+.role-badge.buyer {
+  background: #f59e0b;
+  color: #111;
+}
 
 /* === Action Buttons === */
 .user-actions {

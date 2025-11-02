@@ -12,6 +12,7 @@ import SellerCategories from "./SellerCategories";
 import AddCategory from "./AddCategory";
 import EditProduct from "./EditProduct";
 import CategoryView from "./SellerCategoryView";
+import Profile from "./Profile";
 import UniversalMessages from "../UniversalMessages"; // <- ADD THIS
 
 export default function SellerDashboard() {
@@ -34,6 +35,7 @@ export default function SellerDashboard() {
             <Route path="products/:id/edit" element={<EditProduct />} />
             <Route path="categories/:id" element={<CategoryView />} />
             <Route path="messages" element={<UniversalMessages />} />
+            <Route path="profile" element={<Profile />} />
           </Routes>
         </main>
       </div>

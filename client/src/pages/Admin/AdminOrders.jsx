@@ -1,217 +1,146 @@
-// client/src/pages/Admin/AdminOrders.jsx
 import React, { useEffect, useState } from "react";
 import api from "../../services/api";
-import "./AdminOrders.css";
+import "./AdminOrders.css"; // we will update this styling to match SellerOrders.css
+
+const STATUS_LABELS = {
+  pending: "Pending",
+  confirmed: "Confirmed",
+  shipped: "Shipped",
+  out_for_delivery: "Out for Delivery",
+  delivered: "Delivered",
+  cancellation_requested: "Cancellation Requested",
+  cancelled: "Cancelled",
+};
+
+function StatusBadge({ status }) {
+  return <span className={`order-status ${status}`}>{STATUS_LABELS[status] || status}</span>;
+}
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
-  const [filteredOrders, setFilteredOrders] = useState([]);
-  const [searchField, setSearchField] = useState("buyer");
-  const [searchValue, setSearchValue] = useState("");
-  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
-    async function loadOrders() {
-      const res = await api.get("/orders");
-      setOrders(res.data);
-      setFilteredOrders(res.data);
-    }
     loadOrders();
   }, []);
 
-  // === SEARCH FUNCTION ===
-  useEffect(() => {
-    const value = searchValue.toLowerCase();
-    const filtered = orders.filter((o) => {
-      if (searchField === "buyer")
-        return o.buyer?.name?.toLowerCase().includes(value);
-      if (searchField === "seller")
-        return o.items[0]?.product?.seller?.name?.toLowerCase().includes(value);
-      if (searchField === "product")
-        return o.items.some((i) =>
-          i.product?.name?.toLowerCase().includes(value)
-        );
-      if (searchField === "orderId")
-        return o._id.toLowerCase().includes(value);
-      return true;
+  async function loadOrders() {
+    const res = await api.get("/admin/orders");
+    setOrders(res.data);
+  }
+
+  const filteredOrders = orders
+    .filter((o) =>
+      o.buyer?.name?.toLowerCase().includes(search.toLowerCase()) ||
+      o.items.some((i) => i.product?.name?.toLowerCase().includes(search.toLowerCase())) ||
+      o._id.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter((o) => {
+      if (filter === "all") return true;
+      return o.items.some((i) => i.status === filter);
     });
-    setFilteredOrders(filtered);
-  }, [searchField, searchValue, orders]);
-
-  // === SORT FUNCTION ===
-  const sortOrders = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc")
-      direction = "desc";
-
-    const sorted = [...filteredOrders].sort((a, b) => {
-      const valA = getValueByKey(a, key);
-      const valB = getValueByKey(b, key);
-
-      if (typeof valA === "string" && typeof valB === "string") {
-        return direction === "asc"
-          ? valA.localeCompare(valB)
-          : valB.localeCompare(valA);
-      }
-      if (typeof valA === "number" && typeof valB === "number") {
-        return direction === "asc" ? valA - valB : valB - valA;
-      }
-      return 0;
-    });
-
-    setFilteredOrders(sorted);
-    setSortConfig({ key, direction });
-  };
-
-  const getValueByKey = (order, key) => {
-    switch (key) {
-      case "buyer":
-        return order.buyer?.name || "";
-      case "seller":
-        return order.items[0]?.product?.seller?.name || "";
-      case "product":
-        return order.items[0]?.product?.name || "";
-      case "total":
-        return order.totalAmount || 0;
-      case "date":
-        return new Date(order.createdAt).getTime();
-      default:
-        return "";
-    }
-  };
 
   return (
-    <div className="admin-content">
-      <div className="admin-orders-header">
-        <h2>All Orders</h2>
+    <div className="seller-orders">
+      <div className="seller-orders-header">
+        <div>
+          <h2>All Orders</h2>
+          <div style={{ color: "var(--text-color)", marginTop: 6, fontSize: 13 }}>
+            View every order in the system, across all stores.
+          </div>
+        </div>
 
-        <div className="admin-orders-search">
-          <select
-            value={searchField}
-            onChange={(e) => setSearchField(e.target.value)}
-          >
-            <option value="buyer">Buyer</option>
-            <option value="seller">Seller</option>
-            <option value="product">Product</option>
-            <option value="orderId">Order ID</option>
-          </select>
+        <div className="seller-orders-controls">
           <input
-            type="text"
-            placeholder={`Search by ${searchField}`}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            type="search"
+            placeholder="Search buyer, product, or order ID..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
+          <button className="btn-refresh" onClick={loadOrders}>
+            Refresh
+          </button>
         </div>
       </div>
 
-      {/* === ORDERS TABLE === */}
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th onClick={() => sortOrders("orderId")}>Order ID</th>
-            <th onClick={() => sortOrders("buyer")}>Buyer</th>
-            <th onClick={() => sortOrders("seller")}>Seller</th>
-            <th onClick={() => sortOrders("product")}>Product</th>
-            <th onClick={() => sortOrders("total")}>Total</th>
-            <th onClick={() => sortOrders("date")}>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredOrders.length > 0 ? (
-            filteredOrders.map((o) => (
-              <tr key={o._id}>
-                <td data-label="Order ID">{o._id}</td>
-                <td data-label="Buyer">{o.buyer?.name}</td>
-                <td data-label="Seller">
-                  {o.items[0]?.product?.seller?.name || "—"}
-                </td>
-                <td data-label="Product">
-                  {o.items.map((i) => i.product?.name).join(", ")}
-                </td>
-                <td data-label="Total">₹{o.totalAmount}</td>
-                <td data-label="Date">
-                  {new Date(o.createdAt).toLocaleDateString()}
-                </td>
-                <td data-label="Actions">
-                  <button
-                    className="btn-view"
-                    onClick={() => setSelectedOrder(o)}
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="7" style={{ textAlign: "center", padding: "1rem" }}>
-                No matching orders found.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      {/* FILTER ROW */}
+      <div className="seller-filter-row">
+        <button className={`filter-btn ${filter === "all" ? "active" : ""}`} onClick={() => setFilter("all")}>All</button>
+        <button className={`filter-btn ${filter === "pending" ? "active" : ""}`} onClick={() => setFilter("pending")}>Pending</button>
+        <button className={`filter-btn ${filter === "shipped" ? "active" : ""}`} onClick={() => setFilter("shipped")}>Shipped</button>
+        <button className={`filter-btn ${filter === "out_for_delivery" ? "active" : ""}`} onClick={() => setFilter("out_for_delivery")}>Out for Delivery</button>
+        <button className={`filter-btn ${filter === "delivered" ? "active" : ""}`} onClick={() => setFilter("delivered")}>Delivered</button>
+        <button className={`filter-btn ${filter === "cancellation_requested" ? "active" : ""}`} onClick={() => setFilter("cancellation_requested")}>
+          Cancellation Req.
+        </button>
+      </div>
 
-      {/* === ORDER DETAILS MODAL === */}
-      {selectedOrder && (
-        <div className="modal-overlay" onClick={() => setSelectedOrder(null)}>
-          <div
-            className="order-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3>Order Details</h3>
-
-            <div className="order-details">
-              <p>
-                <strong>Order ID:</strong> {selectedOrder._id}
-              </p>
-              <p>
-                <strong>Date:</strong>{" "}
-                {new Date(selectedOrder.createdAt).toLocaleString()}
-              </p>
-              <p>
-                <strong>Total Amount:</strong> ₹{selectedOrder.totalAmount}
-              </p>
-
-              <hr
-                style={{
-                  border: "none",
-                  borderTop: "1px solid var(--border-color)",
-                  margin: "1rem 0",
-                }}
-              />
-
-              <p>
-                <strong>Buyer:</strong> {selectedOrder.buyer?.name} (
-                {selectedOrder.buyer?.email})
-              </p>
-              <p>
-                <strong>Seller:</strong>{" "}
-                {selectedOrder.items[0]?.product?.seller?.name || "—"}
-              </p>
-
-              <div className="order-products">
-                <h4>Products</h4>
-                <ul>
-                  {selectedOrder.items.map((i, idx) => (
-                    <li key={idx}>
-                      {i.product?.name} — <strong>₹{i.price}</strong> ×{" "}
-                      {i.quantity}
-                    </li>
-                  ))}
-                </ul>
+      {/* ORDER CARDS */}
+      <div className="orders-list">
+        {filteredOrders.map((order) => (
+          <div className="order-card" key={order._id}>
+            <div className="order-card-header">
+              <div className="left">
+                <div className="order-id">Order ID: {order._id}</div>
+                <div className="buyer-meta">{order.buyer?.name} · {order.buyer?.email}</div>
+                <div className="meta-small">Placed: {new Date(order.createdAt).toLocaleString()}</div>
+              </div>
+              <div className="right">
+                <div className="total">₹{order.totalAmount}</div>
               </div>
             </div>
 
+            <div className="order-card-body">
+              {order.items.map((it, idx) => (
+                <div key={idx} className="order-item">
+                  <img className="thumb" src={it.product?.imageUrl || "/placeholder.png"} alt="" />
+                  <div className="info">
+                    <div className="title">{it.product?.name}</div>
+                    <div className="meta">Qty: {it.quantity} × ₹{it.price}</div>
+                    <div className="meta">Seller: {it.product?.seller?.name || "—"}</div>
+                    <div className="meta">Store: {it.product?.store?.name || "—"}</div>
+                  </div>
+
+                  <div className="actions">
+                    <StatusBadge status={it.status} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="order-card-footer">
+              <button className="action-btn primary" onClick={() => setSelectedOrder(order)}>View Details</button>
+            </div>
+          </div>
+        ))}
+
+        {filteredOrders.length === 0 && (
+          <p style={{ color: "#6b7280", marginTop: 20 }}>No orders match this filter.</p>
+        )}
+      </div>
+
+      {/* VIEW DETAILS MODAL */}
+      {selectedOrder && (
+        <div className="modal-overlay" onClick={() => setSelectedOrder(null)}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+            <h3>Order Details</h3>
+
+            <p><strong>Order ID:</strong> {selectedOrder._id}</p>
+            <p><strong>Buyer:</strong> {selectedOrder.buyer?.name} ({selectedOrder.buyer?.email})</p>
+
+            <div className="order-products">
+              <h4>Products</h4>
+              <ul>
+                {selectedOrder.items.map((i, idx) => (
+                  <li key={idx}>{i.product?.name} — ₹{i.price} × {i.quantity}</li>
+                ))}
+              </ul>
+            </div>
+
             <div className="modal-buttons">
-              <button
-                className="btn-secondary"
-                onClick={() => setSelectedOrder(null)}
-              >
-                Close
-              </button>
+              <button className="action-btn" onClick={() => setSelectedOrder(null)}>Close</button>
             </div>
           </div>
         </div>

@@ -14,6 +14,7 @@ import {
   Moon,
   ChevronLeft,
   ChevronRight,
+  UserCircle,
 } from "lucide-react";
 import "./SellerSidebar.css";
 
@@ -113,6 +114,13 @@ export default function SellerSidebar() {
         <NavLink to="/seller/messages" className="nav-link">
           <MessageSquare className="icon" />
           <span className="link-text">Messages</span>
+        </NavLink>
+        <NavLink
+            to="/seller/profile"
+            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+          >
+            <UserCircle className="icon" />
+            <span className="link-text">Profile</span>
         </NavLink>
       </nav>
 

@@ -1,0 +1,42 @@
+.profile-page {
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+  color: var(--text-color);
+}
+
+.profile-page h2 {
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.profile-form input,
+.profile-form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--sidebar-bg);
+  color: var(--text-color);
+}
+
+.btn-save {
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent-color);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-save:hover {
+  opacity: 0.9;
+}

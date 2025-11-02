@@ -21,7 +21,7 @@ async function createAdmin() {
     const hash = await bcrypt.hash('admin123', 10);
     const admin = new User({
       name: 'Default Admin',
-      email: 'admin@lensgallery.com',
+      email: 'sonavanebharat92@gmail.com',
       password: hash,
       role: 'admin'
     });
