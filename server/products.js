@@ -4,22 +4,23 @@ const Store = require("./models/Store");
 const Category = require("./models/Category");
 const Product = require("./models/Product");
 
-// ✅ Replace with your database
-mongoose.connect("mongodb://127.0.0.1:27017/lensgallery", {
+mongoose.connect("mongodb://127.0.0.1:27017/lensgallery",
+{
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// ✅ Get seller email from command line
 const sellerEmail = process.argv[2];
 
-if (!sellerEmail) {
+if (!sellerEmail)
+{
   console.log("❌ Please provide seller email:");
   console.log("   node seed/addDataForSeller.js seller@gmail.com");
   process.exit();
 }
 
-const categoriesData = [
+const categoriesData =
+[
   { name: "Sunglasses", description: "UV-protected eyewear for outdoor style." },
   { name: "Prescription Glasses", description: "Frames for corrective lenses." },
   { name: "Kids Frames", description: "Safe, flexible frames for children." },
@@ -32,7 +33,8 @@ const categoriesData = [
   { name: "Rimless Minimal Frames", description: "Ultra-light rimless elegant frames." }
 ];
 
-const productsData = [
+const productsData =
+[
   { name: "UrbanShield Sunglasses", price: 1299, stock: 12, category: "Sunglasses" },
   { name: "AeroVision Sport Shades", price: 1899, stock: 9, category: "Sports Eyewear" },
   { name: "BlueGuard Anti-Glare", price: 999, stock: 20, category: "Blue Light Glasses" },
@@ -55,12 +57,15 @@ const productsData = [
   { name: "PilotMetal Aviator", price: 1599, stock: 17, category: "Stylish Metal Frames" }
 ];
 
-async function run() {
-  try {
+async function run()
+{
+  try
+  {
     console.log(`🔍 Looking for seller: ${sellerEmail}`);
     const seller = await User.findOne({ email: sellerEmail });
 
-    if (!seller) {
+    if (!seller)
+    {
       console.log("❌ Seller not found.");
       return;
     }
@@ -70,7 +75,8 @@ async function run() {
     console.log("🔍 Finding store...");
     const store = await Store.findOne({ owner: seller._id });
 
-    if (!store) {
+    if (!store)
+    {
       console.log("❌ This seller does not have a store.");
       return;
     }
@@ -83,8 +89,10 @@ async function run() {
 
     console.log("📦 Creating categories...");
     const categoryMap = {};
-    for (const c of categoriesData) {
-      const category = await Category.create({
+    for (const c of categoriesData)
+    {
+      const category = await Category.create(
+      {
         ...c,
         seller: seller._id,
         products: []
@@ -93,8 +101,10 @@ async function run() {
     }
 
     console.log("🕶 Creating products...");
-    for (const p of productsData) {
-      const product = await Product.create({
+    for (const p of productsData)
+    {
+      const product = await Product.create(
+      {
         name: p.name,
         price: p.price,
         stock: p.stock,
@@ -110,9 +120,13 @@ async function run() {
 
     console.log("🎉 Done! Data inserted successfully.");
     
-  } catch (err) {
+  }
+  catch (err)
+  {
     console.error("❌ Error:", err);
-  } finally {
+  }
+  finally
+  {
     mongoose.connection.close();
   }
 }

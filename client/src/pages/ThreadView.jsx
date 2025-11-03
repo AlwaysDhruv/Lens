@@ -4,7 +4,8 @@ import { AuthContext } from "../context/AuthContext";
 import api from "../services/api";
 import "./ThreadView.css";
 
-export default function ThreadView() {
+export default function ThreadView()
+{
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
@@ -13,11 +14,14 @@ export default function ThreadView() {
   const [recipient, setRecipient] = useState("");
   const nav = useNavigate();
 
-  useEffect(() => {
-    async function load() {
+  useEffect(() =>
+  {
+    async function load()
+    {
       const res = await api.get(`/messages/threads/${id}`);
       setMessages(res.data);
-      if (res.data.length > 0) {
+      if (res.data.length > 0)
+      {
         const first = res.data[0];
         setSubject(first.subject);
         const other =
@@ -28,9 +32,11 @@ export default function ThreadView() {
     load();
   }, [id]);
 
-  const sendReply = async (e) => {
+  const sendReply = async (e) =>
+  {
     e.preventDefault();
-    await api.post("/messages/send", {
+    await api.post("/messages/send",
+    {
       threadId: id,
       email: recipient,
       subject,

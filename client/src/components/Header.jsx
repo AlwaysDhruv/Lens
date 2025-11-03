@@ -4,15 +4,16 @@ import { AuthContext } from "../context/AuthContext";
 import { CartContext } from "../context/CartContext";
 import "./Header.css";
 
-export default function Header() {
+export default function Header()
+{
   const { user, logout } = useContext(AuthContext);
-  // Get cart from context to show item count
   const { cart } = useContext(CartContext);
   const nav = useNavigate();
 
   const role = user?.role;
 
-  const handleLogout = () => {
+  const handleLogout = () =>
+  {
     logout();
     nav("/");
   };
@@ -27,13 +28,12 @@ export default function Header() {
         <nav className="nav-links">
           {user ? (
             <>
-              {/* --- BUYER LINKS --- */}
               {role === "buyer" && (
                 <>
                   <Link to="/home">Home</Link>
                   <Link to="/profile">Profile</Link>
-                  <Link to="/my-orders">My Orders</Link>
-                  <Link to="/messages">My Messages</Link>
+                  <Link to="/my-orders">Orders</Link>
+                  <Link to="/messages">Messages</Link>
                   <Link to="/cart" className="cart-link">
                     Cart 
                     {cart.length > 0 && (
@@ -43,10 +43,8 @@ export default function Header() {
                 </>
               )}
 
-              {/* --- SELLER LINK --- */}
               {role === "seller" && <Link to="/seller">Seller</Link>}
               
-              {/* --- ADMIN LINKS --- */}
               {role === "admin" && (
                 <>
                   <Link to="/admin/dashboard">Dashboard</Link>

@@ -1,9 +1,7 @@
-/* ==============================
-   ROOT VARIABLES
-============================== */
-:root {
-  --sidebar-width: 220px;   /* resizable */
-  --list-width: 380px;      /* resizable */
+:root
+{
+  --sidebar-width: 220px;
+  --list-width: 380px;
   --admin-bg: #0f0f0f;
   --sidebar-bg: #111;
   --card-bg: #151515;
@@ -14,10 +12,8 @@
   --accent-color: #3b82f6;
 }
 
-/* ==============================
-   MAIN GRID LAYOUT
-============================== */
-.mail-layout {
+.mail-layout
+{
   display: grid;
   grid-template-columns: var(--sidebar-width) 6px var(--list-width) 6px 1fr;
   height: calc(100vh - 110px);
@@ -26,10 +22,8 @@
   overflow: hidden;
 }
 
-/* ==============================
-   SIDEBAR (AUTO COLLAPSE)
-============================== */
-.mail-sidebar {
+.mail-sidebar
+{
   background: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
   display: flex;
@@ -39,10 +33,8 @@
   width: var(--sidebar-width);
 }
 
-/* collapse when not hovered */
-
-/* Compose Button */
-.mail-sidebar .btn-primary {
+.mail-sidebar .btn-primary
+{
   margin: 12px;
   padding: 10px;
   border-radius: 8px;
@@ -53,15 +45,16 @@
   font-weight: 500;
 }
 
-/* Folder buttons */
-.mail-folders {
+.mail-folders
+{
   display: flex;
   flex-direction: column;
   padding: 6px;
   gap: 6px;
 }
 
-.folder {
+.folder
+{
   display: flex;
   align-items: center;
   gap: 10px;
@@ -76,8 +69,8 @@
 .folder:hover { background: var(--hover-color); }
 .folder.active { background: var(--accent-color); }
 
-/* Badges */
-.badge {
+.badge
+{
   margin-left: auto;
   padding: 2px 8px;
   border-radius: 999px;
@@ -87,11 +80,9 @@
 }
 .badge.muted { background: #6b7280; }
 
-/* ==============================
-   RESIZERS (DRAGGABLE)
-============================== */
 .mail-resizer,
-.mail-resizer-mid {
+.mail-resizer-mid
+{
   background: transparent;
   cursor: ew-resize;
   position: relative;
@@ -99,12 +90,14 @@
 }
 
 .mail-resizer:hover,
-.mail-resizer-mid:hover {
+.mail-resizer-mid:hover
+{
   background: var(--accent-color);
 }
 
 .mail-resizer::after,
-.mail-resizer-mid::after {
+.mail-resizer-mid::after
+{
   content: "↔";
   position: absolute;
   top: 50%;
@@ -114,19 +107,18 @@
   opacity: 0.5;
 }
 
-/* ==============================
-   MESSAGE LIST
-============================== */
-.mail-list {
+.mail-list
+{
   background: var(--card-bg);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  height: 100%;            /* ✅ ensure full panel height */
-  overflow: hidden;        /* ✅ avoid double scrollbars */
+  height: 100%;
+  overflow: hidden;
 }
 
-.mail-search {
+.mail-search
+{
   margin: 10px;
   padding: 8px 10px;
   border-radius: 8px;
@@ -136,7 +128,8 @@
   outline: none;
 }
 
-.mail-items {
+.mail-items
+{
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -146,7 +139,8 @@
 .mail-items::-webkit-scrollbar { width: 7px; }
 .mail-items::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
 
-.mail-item {
+.mail-item
+{
   padding: 10px 12px;
   border-bottom: 1px solid var(--border-color);
   cursor: pointer;
@@ -155,29 +149,30 @@
 .mail-item:hover { background: var(--hover-color); }
 .mail-item.active { background: rgba(59, 130, 246, 0.18); }
 
-/* ==============================
-   MESSAGE VIEW PANEL
-============================== */
-.mail-view {
+.mail-view
+{
   background: var(--card-bg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.mail-view-empty {
+.mail-view-empty
+{
   display: grid;
   place-items: center;
   color: #888;
 }
 
-.mail-view-head {
+.mail-view-head
+{
   padding: 14px;
   border-bottom: 1px solid var(--border-color);
   background: var(--sidebar-bg);
 }
 
-.mail-view-body {
+.mail-view-body
+{
   padding: 16px;
   flex: 1;
   overflow-y: auto;
@@ -185,16 +180,15 @@
   line-height: 1.6;
 }
 
-/* ==============================
-   REPLY BOX
-============================== */
-.reply-box {
+.reply-box
+{
   border-top: 1px solid var(--border-color);
   padding: 12px;
   background: var(--sidebar-bg);
 }
 
-.reply-box textarea {
+.reply-box textarea
+{
   width: 100%;
   padding: 10px;
   border-radius: 8px;
@@ -203,10 +197,8 @@
   color: var(--text-color);
 }
 
-/* ==============================
-   COMPOSE MODAL
-============================== */
-.mail-modal-overlay {
+.mail-modal-overlay
+{
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.55);
@@ -215,7 +207,8 @@
   z-index: 200;
 }
 
-.mail-modal {
+.mail-modal
+{
   width: 650px;
   background: var(--sidebar-bg);
   border: 1px solid var(--border-color);
@@ -223,19 +216,18 @@
   overflow: hidden;
 }
 
-.mail-modal-header {
+.mail-modal-header
+{
   padding: 12px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
 }
 
-/* ==============================
-   TOOLTIP (WHEN COLLAPSED)
-============================== */
 .tooltip { position: relative; }
 
-.mail-layout:not(:hover) .tooltip:hover::after {
+.mail-layout:not(:hover) .tooltip:hover::after
+{
   content: attr(data-tip);
   position: absolute;
   left: 80px;
@@ -249,18 +241,18 @@
   opacity: 1;
 }
 
-/* ==============================
-   STATUS TAG (Unread / Read)
-============================== */
-.mail-item {
+.mail-item
+{
   position: relative;
 }
 
-.mail-item:hover .mail-status-tip {
+.mail-item:hover .mail-status-tip
+{
   opacity: 1;
 }
 
-.mail-status-tip {
+.mail-status-tip
+{
   position: absolute;
   right: 8px;
   top: 50%;
@@ -274,46 +266,54 @@
   color: var(--text-color);
 }
 
-.mail-view-head {
+.mail-view-head
+{
   padding: 16px;
   border-bottom: 1px solid var(--border-color);
   background: var(--card-bg);
 }
 
-.mail-view-subject {
+.mail-view-subject
+{
   font-size: 1.3rem;
   font-weight: 700;
   margin-bottom: 10px;
 }
 
-.mail-view-meta {
+.mail-view-meta
+{
   font-size: 0.9rem;
   line-height: 1.5;
   opacity: 0.9;
 }
 
-.mail-meta-row {
+.mail-meta-row
+{
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.meta-label {
+.meta-label
+{
   opacity: 0.65;
 }
 
-.meta-email {
+.meta-email
+{
   opacity: 0.7;
   font-size: 0.85rem;
 }
 
-.mail-meta-row.date {
+.mail-meta-row.date
+{
   margin-top: 6px;
   opacity: 0.6;
   font-size: 0.85rem;
 }
 
-.mail-view-body {
+.mail-view-body
+{
   padding: 18px;
   flex: 1;
   overflow-y: auto;

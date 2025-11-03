@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
-import './ProductCard.css'; // We will create this CSS file next
+import './ProductCard.css';
 
-const API_URL = 'http://localhost:5000'; // Adjust if your server URL is different
+const API_URL = 'http://localhost:5000';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product })
+{
   const { addToCart } = useContext(CartContext);
 
   const imageUrl = product.imageUrl

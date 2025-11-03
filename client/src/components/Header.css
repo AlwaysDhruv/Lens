@@ -1,4 +1,5 @@
-.main-header {
+.main-header
+{
   position: sticky;
   top: 0;
   z-index: 999;
@@ -9,7 +10,8 @@
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-.header-inner {
+.header-inner
+{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,7 +19,8 @@
   margin: 0 auto;
 }
 
-.brand {
+.brand
+{
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--primary);
@@ -26,46 +29,54 @@
   transition: transform 0.2s ease;
 }
 
-.brand:hover {
+.brand:hover
+{
   transform: scale(1.05);
 }
 
-.nav-links {
+.nav-links
+{
   display: flex;
   gap: 1.2rem;
   align-items: center;
 }
 
-.nav-links a {
+.nav-links a
+{
   color: var(--text);
   font-weight: 500;
   text-decoration: none;
   transition: color 0.3s ease, transform 0.2s ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover
+{
   color: var(--primary);
   transform: translateY(-1px);
 }
 
-.logout {
+.logout
+{
   cursor: pointer;
   color: crimson;
   font-weight: 600;
   transition: opacity 0.2s ease;
 }
 
-.logout:hover {
+.logout:hover
+{
   opacity: 0.8;
 }
 
-.cart-link {
+.cart-link
+{
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-.cart-badge {
+.cart-badge
+{
   background-color: var(--primary-color);
   color: white;
   border-radius: 50%;

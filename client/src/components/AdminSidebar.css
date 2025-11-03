@@ -1,5 +1,5 @@
-/* --- Sidebar Base --- */
-.admin-sidebar {
+.admin-sidebar
+{
   background: var(--sidebar-bg);
   color: var(--sidebar-text);
   width: 75px;
@@ -15,12 +15,13 @@
   overflow: hidden;
 }
 
-.admin-sidebar.open {
+.admin-sidebar.open
+{
   width: 250px;
 }
 
-/* --- Header --- */
-.sidebar-header {
+.sidebar-header
+{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,15 +29,16 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.sidebar-header h2 {
+.sidebar-header h2
+{
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-color);
   white-space: nowrap;
 }
 
-/* --- Toggle Button --- */
-.toggle-btn {
+.toggle-btn
+{
   background: transparent;
   border: none;
   color: var(--text-color);
@@ -46,18 +48,20 @@
   transition: background 0.3s ease;
 }
 
-.toggle-btn:hover {
+.toggle-btn:hover
+{
   background: var(--hover-color);
 }
 
-/* --- Navigation --- */
-.sidebar-nav {
+.sidebar-nav
+{
   display: flex;
   flex-direction: column;
   margin-top: 0.5rem;
 }
 
-.nav-link {
+.nav-link
+{
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -70,37 +74,42 @@
   white-space: nowrap;
 }
 
-.nav-link:hover {
+.nav-link:hover
+{
   background: var(--hover-color);
   transform: translateX(3px);
 }
 
-.nav-link.active {
+.nav-link.active
+{
   background: var(--active-bg);
   border-left: 4px solid var(--accent-color);
   color: #fff;
 }
 
-/* --- Icon & Text --- */
-.icon {
+.icon
+{
   width: 20px;
   height: 20px;
   flex-shrink: 0;
 }
 
-/* --- Text Animation --- */
-@keyframes charFadeIn {
-  0% {
+@keyframes charFadeIn
+{
+  0%
+  {
     opacity: 0;
     transform: translateX(-6px);
   }
-  100% {
+  100%
+  {
     opacity: 1;
     transform: translateX(0);
   }
 }
 
-.link-text {
+.link-text
+{
   opacity: 0;
   visibility: hidden;
   transform: translateX(-6px);
@@ -108,33 +117,37 @@
   transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
 }
 
-/* When sidebar expands or hover */
 .admin-sidebar.open .link-text,
-.admin-sidebar:hover .link-text {
+.admin-sidebar:hover .link-text
+{
   opacity: 1;
   visibility: visible;
   animation: charFadeIn 0.4s ease forwards;
 }
 
-/* Stagger animation for typing illusion */
-.sidebar-nav .nav-link:nth-child(1) .link-text {
+.sidebar-nav .nav-link:nth-child(1) .link-text
+{
   animation-delay: 0.05s;
 }
-.sidebar-nav .nav-link:nth-child(2) .link-text {
+.sidebar-nav .nav-link:nth-child(2) .link-text
+{
   animation-delay: 0.1s;
 }
-.sidebar-nav .nav-link:nth-child(3) .link-text {
+.sidebar-nav .nav-link:nth-child(3) .link-text
+{
   animation-delay: 0.15s;
 }
-.sidebar-nav .nav-link:nth-child(4) .link-text {
+.sidebar-nav .nav-link:nth-child(4) .link-text
+{
   animation-delay: 0.2s;
 }
-.sidebar-nav .nav-link:nth-child(5) .link-text {
+.sidebar-nav .nav-link:nth-child(5) .link-text
+{
   animation-delay: 0.25s;
 }
 
-/* --- Footer --- */
-.sidebar-footer {
+.sidebar-footer
+{
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -144,9 +157,9 @@
   transition: all 0.3s ease;
 }
 
-/* --- Theme & Logout Buttons --- */
 .theme-toggle,
-.logout-btn {
+.logout-btn
+{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -160,9 +173,9 @@
   transition: all 0.3s ease;
 }
 
-/* Closed Sidebar → circular icon buttons */
 .admin-sidebar:not(.open) .theme-toggle,
-.admin-sidebar:not(.open) .logout-btn {
+.admin-sidebar:not(.open) .logout-btn
+{
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -171,24 +184,24 @@
   justify-content: center;
 }
 
-/* Open Sidebar → full-width text buttons */
 .admin-sidebar.open .theme-toggle,
-.admin-sidebar.open .logout-btn {
+.admin-sidebar.open .logout-btn
+{
   width: 100%;
   justify-content: flex-start;
   border: 1px solid transparent;
   padding: 0.6rem 0.7rem;
 }
 
-/* Hover Effect */
 .theme-toggle:hover,
-.logout-btn:hover {
+.logout-btn:hover
+{
   background: var(--hover-color);
   color: #fff;
 }
 
-/* --- Layout --- */
-.admin-layout {
+.admin-layout
+{
   display: flex;
   width: 100%;
   min-height: 100vh;
@@ -196,7 +209,8 @@
   transition: background 0.3s ease;
 }
 
-.admin-main {
+.admin-main
+{
   flex-grow: 1;
   margin-left: 75px;
   min-height: 100vh;
@@ -205,12 +219,13 @@
   padding: 2rem;
 }
 
-.admin-sidebar.open ~ .admin-main {
+.admin-sidebar.open ~ .admin-main
+{
   margin-left: 250px;
 }
 
-/* --- Theme Variables --- */
-body.light {
+body.light
+{
   --admin-bg: #f4f6fa;
   --sidebar-bg: #ffffff;
   --sidebar-text: #1e293b;
@@ -220,7 +235,8 @@ body.light {
   --accent-color: #3b82f6;
 }
 
-body.dark {
+body.dark
+{
   --admin-bg: #0f172a;
   --sidebar-bg: #111827;
   --sidebar-text: #f9fafb;
@@ -230,13 +246,13 @@ body.dark {
   --accent-color: #60a5fa;
 }
 
-/* --- Smooth transitions --- */
-.admin-sidebar * {
+.admin-sidebar *
+{
   transition: all 0.25s ease;
 }
 
-/* --- Logo Icon when sidebar closed --- */
-.sidebar-logo-icon {
+.sidebar-logo-icon
+{
   font-size: 1.5rem;
   color: var(--text-color);
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -246,7 +262,8 @@ body.dark {
   width: 28px;
 }
 
-.sidebar-logo-icon:hover {
+.sidebar-logo-icon:hover
+{
   transform: scale(1.1);
   opacity: 0.9;
 }

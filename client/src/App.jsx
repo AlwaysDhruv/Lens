@@ -1,30 +1,31 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 
-// 🧩 Common Components
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// 🌍 Public Pages
 import Welcome from "./pages/Welcome";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Contact from "./pages/Contact";
 
-// --- 🛍️ BUYER PAGES (New) ---
 import HomePage from "./pages/Buyer/HomePage";
 import ProductDetailPage from "./pages/Buyer/ProductDetailPage";
 import CartPage from "./pages/Buyer/CartPage";
 import ProfilePage from "./pages/Buyer/ProfilePage";
 import MyOrdersPage from "./pages/Buyer/MyOrdersPage";
-// --------------------------
 
-// 🧑‍💼 Seller Pages
 import SellerDashboard from "./pages/Seller/SellerDashboard";
 
-// 👑 Admin Pages
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminUsers from "./pages/Admin/AdminUsers";
@@ -32,18 +33,15 @@ import AdminProducts from "./pages/Admin/AdminProducts";
 import AdminProductView from "./pages/Admin/AdminProductView";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import AdminNewMessage from "./pages/Admin/AdminNewMessage";
+import AdminUserDetails from "./pages/Admin/AdminUserDetails";
 
-// 💬 Universal Messaging System (Threaded)
 import UniversalMessages from "./pages/UniversalMessages";
 import ThreadView from "./pages/ThreadView";
 
 import "./styles/theme.css";
 
-/* ==========================================================
-   🌐 Layout Wrapper
-   ... (This component remains the same as in your file)
-========================================================== */
-function LayoutWrapper({ children }) {
+function LayoutWrapper()
+{
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
   const isSellerPage = location.pathname.startsWith("/seller");
@@ -57,36 +55,30 @@ function LayoutWrapper({ children }) {
           flex: "1",
         }}
       >
-        {children}
+        <Outlet />
       </main>
       {!isAdminPage && !isSellerPage && <Footer />}
     </div>
   );
 }
 
-
-/* ==========================================================
-   🚀 Main App Router
-========================================================== */
 export default function App() {
   return (
     <BrowserRouter>
-      <LayoutWrapper>
-        <Routes>
+      <Routes>
+        <Route element={<LayoutWrapper />}>
+          <Route index element={<Welcome />} />
+          <Route path="welcome" element={<Welcome />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="forgot" element={<ForgotPassword />} />
+          <Route path="contact" element={<Contact />} />
 
-          {/* --- 🌍 Public Routes --- */}
-          <Route path="/" element={<Welcome />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot" element={<ForgotPassword />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="home" element={<HomePage />} />
+          <Route path="product/:id" element={<ProductDetailPage />} />
 
-          {/* --- 🛍️ Buyer Routes (Public & Protected) --- */}
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/product/:id" element={<ProductDetailPage />} />
-          
           <Route
-            path="/cart"
+            path="cart"
             element={
               <ProtectedRoute roles={["buyer"]}>
                 <CartPage />
@@ -94,7 +86,7 @@ export default function App() {
             }
           />
           <Route
-            path="/profile"
+            path="profile"
             element={
               <ProtectedRoute roles={["buyer", "seller", "admin"]}>
                 <ProfilePage />
@@ -102,7 +94,7 @@ export default function App() {
             }
           />
           <Route
-            path="/my-orders"
+            path="my-orders"
             element={
               <ProtectedRoute roles={["buyer"]}>
                 <MyOrdersPage />
@@ -110,10 +102,8 @@ export default function App() {
             }
           />
 
-          {/* --- 💬 Messaging System (All Roles) --- */}
-          {/* Note: Updated 'user' to 'buyer' to match schema */}
           <Route
-            path="/messages"
+            path="messages"
             element={
               <ProtectedRoute roles={["admin", "seller", "buyer"]}>
                 <UniversalMessages />
@@ -121,44 +111,44 @@ export default function App() {
             }
           />
           <Route
-            path="/messages/:id"
+            path="messages/:id"
             element={
               <ProtectedRoute roles={["admin", "seller", "buyer"]}>
                 <ThreadView />
               </ProtectedRoute>
             }
           />
+        </Route>
 
-          {/* --- 🧑‍💼 Seller Section --- */}
-          <Route
-            path="/seller/*"
-            element={
-              <ProtectedRoute roles={["seller"]}>
-                <SellerDashboard />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/seller/*"
+          element={
+            <ProtectedRoute roles={["seller"]}>
+              <SellerDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-          {/* --- 👑 Admin Section --- */}
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute roles={["admin"]}>
-                <AdminLayout />
-              </ProtectedRoute>
-            }
-          >
-            {/* ... (existing admin routes) ... */}
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="users" element={<AdminUsers />} />
-            <Route path="products" element={<AdminProducts />} />
-            <Route path="products/:id" element={<AdminProductView />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="messages/new" element={<AdminNewMessage />} />
-          </Route>
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute roles={["admin"]}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="users/:id" element={<AdminUserDetails />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="products/:id" element={<AdminProductView />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="messages/new" element={<AdminNewMessage />} />
+        </Route>
 
-        </Routes>
-      </LayoutWrapper>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </BrowserRouter>
   );
 }

@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 import "./AdminSidebar.css";
 
-export default function AdminSidebar() {
+export default function AdminSidebar()
+{
   const { logout } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const nav = useNavigate();
@@ -24,7 +25,8 @@ export default function AdminSidebar() {
   const [isPinned, setIsPinned] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = () =>
+  {
     logout();
     nav("/");
   };
@@ -38,7 +40,6 @@ export default function AdminSidebar() {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="sidebar-header">
-        {/* 👓 When sidebar closed, show logo icon instead of text */}
         {!isOpen ? (
           <div className="sidebar-logo-icon" title="Lens Admin">
             👓

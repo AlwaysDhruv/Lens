@@ -1,5 +1,5 @@
-/* Footer always at the bottom of the viewport */
-.app-footer {
+.app-footer
+{
   text-align: center;
   padding: 1rem 0;
   color: var(--text-color);
@@ -8,17 +8,18 @@
   position: relative;
   bottom: 1;
   width: 100%;
-  margin-top: auto; /* pushes footer to bottom if using flex layout */
+  margin-top: auto;
   transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
 }
 
-/* Optional theme variants */
-body.light .app-footer {
+body.light .app-footer
+{
   background: #ffffff;
   color: #1e293b;
 }
 
-body.dark .app-footer {
+body.dark .app-footer
+{
   background: #0f172a;
   color: #f8fafc;
   border-color: #1f2937;

@@ -4,7 +4,8 @@ import socket from "../services/socket";
 import { AuthContext } from "../context/AuthContext";
 import "./UniversalMessages.css";
 
-function ReplyBox({ onSend }) {
+function ReplyBox({ onSend })
+{
   const [text, setText] = useState("");
 
   return (
@@ -30,12 +31,14 @@ function ReplyBox({ onSend }) {
   );
 }
 
-function ComposeModal({ open, onClose, onSend, users }) {
+function ComposeModal({ open, onClose, onSend, users })
+{
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (open) { setTo(""); setSubject(""); setMessage(""); }
   }, [open]);
 
@@ -70,7 +73,8 @@ function ComposeModal({ open, onClose, onSend, users }) {
         <div className="compose-actions">
           <button
             className="btn-primary"
-            onClick={() => {
+            onClick={() =>
+            {
               if (!to || !message.trim()) return;
               onSend({ receiverId: to, subject, message });
             }}
@@ -84,7 +88,8 @@ function ComposeModal({ open, onClose, onSend, users }) {
   );
 }
 
-export default function UniversalMail() {
+export default function UniversalMail()
+{
   const { user } = useContext(AuthContext);
 
   const [allUsers, setAllUsers] = useState([]);
@@ -97,35 +102,42 @@ export default function UniversalMail() {
   const [sidebarWidth, setSidebarWidth] = useState(220);
   const [listWidth, setListWidth] = useState(380);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     document.documentElement.style.setProperty("--sidebar-width", `${sidebarWidth}px`);
     document.documentElement.style.setProperty("--list-width", `${listWidth}px`);
   }, [sidebarWidth, listWidth]);
 
-  function startSidebarResize(e) {
+  function startSidebarResize(e)
+  {
     e.preventDefault();
     document.addEventListener("mousemove", resizeSidebar);
     document.addEventListener("mouseup", stopSidebarResize);
   }
   function resizeSidebar(e) { setSidebarWidth(Math.min(Math.max(e.clientX, 120), 400)); }
-  function stopSidebarResize() {
+  function stopSidebarResize()
+  {
     document.removeEventListener("mousemove", resizeSidebar);
     document.removeEventListener("mouseup", stopSidebarResize);
   }
 
-  function startListResize(e) {
+  function startListResize(e)
+  {
     e.preventDefault();
     document.addEventListener("mousemove", resizeList);
     document.addEventListener("mouseup", stopListResize);
   }
   function resizeList(e) { setListWidth(Math.min(Math.max(e.clientX - sidebarWidth, 240), 700)); }
-  function stopListResize() {
+  function stopListResize()
+  {
     document.removeEventListener("mousemove", resizeList);
     document.removeEventListener("mouseup", stopListResize);
   }
 
-  useEffect(() => {
-    async function load() {
+  useEffect(() =>
+  {
+    async function load()
+    {
       const [usersRes, msgsRes] = await Promise.all([api.get("/users"), api.get("/messages")]);
       setAllUsers(usersRes.data);
       setMails(msgsRes.data);
@@ -138,14 +150,16 @@ export default function UniversalMail() {
     return () => socket.off("new_message");
   }, [user._id]);
 
-  const counts = useMemo(() => {
+  const counts = useMemo(() =>
+  {
     const inbox = mails.filter(m => m.receiver?._id === user._id);
     const sent = mails.filter(m => m.sender?._id === user._id);
     const unreadInbox = inbox.filter(m => !m.isRead).length;
     return { inbox: inbox.length, sent: sent.length, unreadInbox };
   }, [mails, user._id]);
 
-  const filtered = useMemo(() => {
+  const filtered = useMemo(() =>
+  {
     let list = mails;
     if (folder === "inbox") list = list.filter(m => m.receiver?._id === user._id);
     if (folder === "sent") list = list.filter(m => m.sender?._id === user._id);
@@ -159,15 +173,18 @@ export default function UniversalMail() {
     return list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   }, [mails, folder, search, user._id]);
 
-  const openMail = (m) => {
+  const openMail = (m) =>
+  {
     setActiveMail(m);
-    if (m.receiver?._id === user._id && !m.isRead) {
+    if (m.receiver?._id === user._id && !m.isRead)
+    {
       setMails(prev => prev.map(x => x._id === m._id ? { ...x, isRead: true } : x));
       api.patch(`/messages/${m._id}/read`).catch(() => {});
     }
   };
 
-  const sendMail = async ({ receiverId, subject, message }) => {
+  const sendMail = async ({ receiverId, subject, message }) =>
+  {
     const res = await api.post("/messages/send", { receiverId, subject, message });
     const saved = res.data?.data || res.data;
     setMails(prev => [saved, ...prev]);

@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport(
+{
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
@@ -8,9 +9,12 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-async function sendEmail(to, subject, text, html = null) {
-  try {
-    await transporter.sendMail({
+async function sendEmail(to, subject, text, html = null)
+{
+  try
+  {
+    await transporter.sendMail(
+    {
       from: `"Lens Gallery" <${process.env.EMAIL_USER}>`,
       to,
       subject,
@@ -18,7 +22,9 @@ async function sendEmail(to, subject, text, html = null) {
       html: html || text
     });
     console.log(`📨 Email sent to ${to}`);
-  } catch (err) {
+  }
+  catch (err)
+  {
     console.error('❌ Email send error:', err);
   }
 }

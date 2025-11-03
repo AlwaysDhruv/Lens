@@ -4,26 +4,34 @@ export const ThemeContext = createContext();
 
 const VALID = ["light", "dark"];
 
-export const ThemeProvider = ({ children }) => {
-  const initial = (() => {
-    try {
+export const ThemeProvider = ({ children }) =>
+{
+  const initial = (() =>
+  {
+    try
+    {
       const t = localStorage.getItem("theme");
       return VALID.includes(t) ? t : "dark";
-    } catch {
+    }
+    catch
+    {
       return "dark";
     }
   })();
 
   const [theme, setTheme] = useState(initial);
 
-  useEffect(() => {
-    // remove any prior theme classes we control, then add the current one
+  useEffect(() =>
+  {
     document.body.classList.remove(...VALID);
     document.body.classList.add(theme);
-    try {
+    try
+    {
       localStorage.setItem("theme", theme);
-    } catch {
-      // ignore storage errors (e.g. privacy mode)
+    }
+    catch
+    {
+      
     }
   }, [theme]);
 

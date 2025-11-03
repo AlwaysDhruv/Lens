@@ -5,19 +5,16 @@ const User = require('../models/User');
 const sendEmail = require('../utils/sendEmail');
 const auth = require("../middleware/auth");
 
-/* =====================================================
-   Helper: Generate JWT (✅ FIXED to include role)
-===================================================== */
-function generateToken(user) {
+function generateToken(user)
+{
   const payload = { id: user._id, role: user.role };
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
 }
 
-/* =====================================================
-   USER REGISTRATION
-===================================================== */
-router.post('/register', async (req, res) => {
-  try {
+router.post('/register', async (req, res) =>
+{
+  try
+  {
     const { name, email, password, role } = req.body;
 
     if (!name || !email || !password)
@@ -28,7 +25,8 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ msg: 'Email already registered' });
 
     const hash = await bcrypt.hash(password, 10);
-    const user = await User.create({
+    const user = await User.create(
+    {
       name,
       email,
       password: hash,
@@ -37,30 +35,35 @@ router.post('/register', async (req, res) => {
 
     const token = generateToken(user);
 
-    res.json({
+    res.json(
+    {
       msg: 'User registered successfully',
       token,
-      user: {
+      user: 
+      {
         _id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
       },
     });
-  } catch (err) {
+  }
+  catch (err)
+  {
     res.status(500).json({ msg: err.message });
   }
 });
 
-/* =====================================================
-   USER PROFILE
-===================================================== */
-router.get("/profile", auth, async (req, res) => {
-  try {
+router.get("/profile", auth, async (req, res) =>
+{
+  try
+  {
     const user = await User.findById(req.user.id).select("-password");
     if (!user) return res.status(404).json({ msg: "User not found" });
     res.json(user);
-  } catch (err) {
+  }
+  catch (err)
+  {
     console.error("Profile route error:", err);
     res.status(500).json({ msg: err.message });
   }
@@ -69,8 +72,10 @@ router.get("/profile", auth, async (req, res) => {
 /* =====================================================
    USER LOGIN
 ===================================================== */
-router.post('/login', async (req, res) => {
-  try {
+router.post('/login', async (req, res) =>
+{
+  try
+  {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user)
@@ -82,7 +87,8 @@ router.post('/login', async (req, res) => {
 
     const token = generateToken(user);
 
-    res.json({
+    res.json(
+    {
       msg: 'Login successful',
       token,
       user: {
@@ -92,23 +98,23 @@ router.post('/login', async (req, res) => {
         role: user.role,
       },
     });
-  } catch (err) {
+  }
+  catch (err)
+  {
     res.status(500).json({ msg: err.message });
   }
 });
 
-/* =====================================================
-   FORGOT PASSWORD - SEND OTP
-===================================================== */
-router.post('/forgot', async (req, res) => {
-  try {
+router.post('/forgot', async (req, res) =>
+{
+  try
+  {
     const { email } = req.body;
     if (!email)
       return res.status(400).json({ msg: 'Email is required' });
 
     const user = await User.findOne({ email });
     if (!user)
-      // security: don't reveal if account exists
       return res.json({ msg: 'If an account exists, OTP has been sent.' });
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -124,16 +130,17 @@ router.post('/forgot', async (req, res) => {
 
     console.log(`📧 Sent OTP ${otp} to ${email}`);
     res.json({ msg: 'If an account exists, OTP has been sent.' });
-  } catch (err) {
+  }
+  catch (err)
+  {
     res.status(500).json({ msg: err.message });
   }
 });
 
-/* =====================================================
-   VERIFY OTP
-===================================================== */
-router.post('/verify-otp', async (req, res) => {
-  try {
+router.post('/verify-otp', async (req, res) =>
+{
+  try
+  {
     const { email, otp } = req.body;
     if (!email || !otp)
       return res.status(400).json({ msg: 'Email and OTP are required' });
@@ -146,16 +153,17 @@ router.post('/verify-otp', async (req, res) => {
       return res.status(400).json({ msg: 'OTP expired' });
 
     res.json({ msg: 'OTP verified successfully' });
-  } catch (err) {
+  }
+  catch (err)
+  {
     res.status(500).json({ msg: err.message });
   }
 });
 
-/* =====================================================
-   RESET PASSWORD
-===================================================== */
-router.post('/reset-password', async (req, res) => {
-  try {
+router.post('/reset-password', async (req, res) =>
+{
+  try
+  {
     const { email, otp, newPassword } = req.body;
     if (!email || !otp || !newPassword)
       return res.status(400).json({ msg: 'All fields are required' });
@@ -174,44 +182,44 @@ router.post('/reset-password', async (req, res) => {
     await user.save();
 
     res.json({ msg: 'Password reset successful. You can now log in.' });
-  } catch (err) {
+  }
+  catch (err)
+  {
     res.status(500).json({ msg: err.message });
   }
 });
 
-router.put("/update-details", auth, async (req, res) => {
-  try {
+router.put("/update-details", auth, async (req, res) =>
+{
+  try
+  {
     const { name, address, phone } = req.body;
 
     const user = await User.findById(req.user.id);
-    if (!user) {
+    if (!user)
       return res.status(404).json({ msg: "User not found" });
-    }
 
-    // ✅ Name can be updated but NOT cleared
-    if (name !== undefined && name.trim() !== "") {
+    if (name !== undefined && name.trim() !== "")
       user.name = name;
-    }
 
-    // ✅ Allow clearing or updating address
-    if (address !== undefined) {
+    if (address !== undefined) 
       user.address = address;
-    }
 
-    // ✅ Allow clearing or updating phone
-    if (phone !== undefined) {
+    if (phone !== undefined)
       user.phone = phone;
-    }
 
     await user.save();
 
     const updatedUser = await User.findById(req.user.id).select("-password");
 
-    res.json({
+    res.json(
+    {
       msg: "Profile updated successfully",
       user: updatedUser,
     });
-  } catch (err) {
+  }
+  catch (err)
+  {
     console.error("Profile update error:", err);
     res.status(500).json({ msg: err.message });
   }

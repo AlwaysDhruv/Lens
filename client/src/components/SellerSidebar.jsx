@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSellerLayout } from "../context/SellerLayoutContext";
 import { ThemeContext } from "../context/ThemeContext";
-import { AuthContext } from "../context/AuthContext"; // ✅ use global auth
+import { AuthContext } from "../context/AuthContext";
 import {
   Box,
   PlusSquare,
@@ -18,28 +18,28 @@ import {
 } from "lucide-react";
 import "./SellerSidebar.css";
 
-export default function SellerSidebar() {
+export default function SellerSidebar()
+{
   const { isSidebarOpen, toggleSidebar } = useSellerLayout();
   const [hovered, setHovered] = useState(false);
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { logout } = useContext(AuthContext); // ✅ use same logout
+  const { logout } = useContext(AuthContext);
   const nav = useNavigate();
 
-  // determine if sidebar is open (pinned or hovered)
   const open = isSidebarOpen || hovered;
 
-  // handle layout wrapper sync
-  useEffect(() => {
+  useEffect(() =>
+  {
     const wrapper = document.querySelector(".seller-layout");
     if (!wrapper) return;
     if (isSidebarOpen) wrapper.classList.add("sidebar-open");
     else wrapper.classList.remove("sidebar-open");
   }, [isSidebarOpen]);
 
-  // ✅ consistent logout logic (like admin)
-  const handleLogout = () => {
-    logout(); // clears token + user globally
-    nav("/"); // redirect home
+  const handleLogout = () =>
+  {
+    logout();
+    nav("/");
   };
 
   return (
@@ -49,7 +49,6 @@ export default function SellerSidebar() {
       onMouseLeave={() => setHovered(false)}
       aria-expanded={open}
     >
-      {/* Header */}
       <div className="sidebar-header">
         {!open ? <span className="sidebar-logo">🤑</span> : <h2>Seller Panel</h2>}
         <button
@@ -61,7 +60,6 @@ export default function SellerSidebar() {
         </button>
       </div>
 
-      {/* Navigation */}
       <nav className="sidebar-nav">
         <NavLink
           to="/seller/products"
@@ -124,7 +122,6 @@ export default function SellerSidebar() {
         </NavLink>
       </nav>
 
-      {/* Footer */}
       <div className="sidebar-footer">
         <button
           className="theme-toggle"

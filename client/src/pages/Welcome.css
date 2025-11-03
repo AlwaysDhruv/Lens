@@ -44,14 +44,16 @@ body.dark .welcome-page {
   margin-bottom: 2rem;
 }
 
-.welcome-buttons {
+.welcome-buttons
+{
   display: flex;
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
 }
 
-.btn {
+.btn
+{
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
@@ -59,27 +61,32 @@ body.dark .welcome-page {
   transition: transform 0.2s ease, background 0.3s ease;
 }
 
-.btn.primary {
+.btn.primary
+{
   background: #fff;
   color: var(--primary);
 }
 
-.btn.primary:hover {
+.btn.primary:hover
+{
   background: #f0f0f0;
   transform: translateY(-2px);
 }
 
-.btn.secondary {
+.btn.secondary
+{
   background: transparent;
   border: 2px solid #fff;
   color: #fff;
 }
 
-.btn.secondary:hover {
+.btn.secondary:hover
+{
   background: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
 }
-.goggles-bg {
+.goggles-bg
+{
   position: absolute;
   inset: 0;
   width: 100%;
@@ -89,11 +96,13 @@ body.dark .welcome-page {
   background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
 }
 
-canvas {
+canvas
+{
   filter: brightness(1.2) contrast(1.05);
 }
 
-.welcome-page {
+.welcome-page
+{
   position: relative;
   display: flex;
   justify-content: center;
@@ -106,7 +115,8 @@ canvas {
   overflow: hidden;
 }
 
-.welcome-content {
+.welcome-content
+{
   position: relative;
-  z-index: 10; /* keeps text above 3D background */
+  z-index: 10;
 }

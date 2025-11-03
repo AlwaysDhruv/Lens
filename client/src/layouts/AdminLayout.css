@@ -1,5 +1,5 @@
-/* === UNIFIED ADMIN LAYOUT === */
-.admin-layout {
+.admin-layout
+{
   display: flex;
   min-height: 100vh;
   width: 100%;
@@ -8,11 +8,11 @@
   color: var(--text-color);
 }
 
-/* === MAIN CONTENT AREA === */
-.admin-main {
+.admin-main
+{
   flex: 1;
   padding: 2rem;
-  margin-left: 75px; /* collapsed sidebar width */
+  margin-left: 75px;
   background: var(--admin-bg);
   color: var(--text-color);
   min-height: 100vh;
@@ -21,15 +21,13 @@
   z-index: 1;
 }
 
-/* When sidebar expands */
-.admin-sidebar.open ~ .admin-main {
+.admin-sidebar.open ~ .admin-main
+{
   margin-left: 230px;
 }
 
-/* === THEME VARIABLES === */
-
-/* Light Mode */
-body.light {
+body.light
+{
   --admin-bg: #f4f6fa;
   --text-color: #1e293b;
   --border-color: #d1d5db;
@@ -38,8 +36,8 @@ body.light {
   --accent-color: #3b82f6;
 }
 
-/* Dark Mode */
-body.dark {
+body.dark
+{
   --admin-bg: #111827;
   --text-color: #f9fafb;
   --border-color: #1f2937;

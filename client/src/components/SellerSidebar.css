@@ -1,5 +1,5 @@
-/* --- Sidebar Base --- */
-.seller-sidebar {
+.seller-sidebar
+{
   background: var(--sidebar-bg);
   color: var(--sidebar-text);
   width: 5px;
@@ -16,12 +16,13 @@
   z-index: 10;
 }
 
-.seller-sidebar.open {
+.seller-sidebar.open
+{
   width: 250px;
 }
 
-/* --- Header --- */
-.sidebar-header {
+.sidebar-header
+{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -29,15 +30,16 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.sidebar-header h2 {
+.sidebar-header h2
+{
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-color);
   white-space: nowrap;
 }
 
-/* --- Toggle Button --- */
-.toggle-btn {
+.toggle-btn
+{
   background: transparent;
   border: none;
   color: var(--text-color);
@@ -47,18 +49,20 @@
   transition: background 0.3s ease;
 }
 
-.toggle-btn:hover {
+.toggle-btn:hover
+{
   background: var(--hover-color);
 }
 
-/* --- Navigation --- */
-.sidebar-nav {
+.sidebar-nav
+{
   display: flex;
   flex-direction: column;
   margin-top: 0.5rem;
 }
 
-.nav-link {
+.nav-link
+{
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -71,25 +75,28 @@
   white-space: nowrap;
 }
 
-.nav-link:hover {
+.nav-link:hover
+{
   background: var(--hover-color);
   transform: translateX(3px);
 }
 
-.nav-link.active {
+.nav-link.active
+{
   background: var(--active-bg);
   border-left: 4px solid var(--accent-color);
   color: #fff;
 }
 
-/* --- Icon & Text --- */
-.icon {
+.icon
+{
   width: 20px;
   height: 20px;
   flex-shrink: 0;
 }
 
-.link-text {
+.link-text
+{
   opacity: 0;
   visibility: hidden;
   transform: translateX(-6px);
@@ -97,15 +104,15 @@
   transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
 }
 
-/* When sidebar expands or hover */
 .seller-sidebar.open .link-text,
-.seller-sidebar:hover .link-text {
+.seller-sidebar:hover .link-text
+{
   opacity: 1;
   visibility: visible;
 }
 
-/* --- Footer --- */
-.sidebar-footer {
+.sidebar-footer
+{
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -115,9 +122,9 @@
   transition: all 0.3s ease;
 }
 
-/* --- Theme & Logout Buttons --- */
 .theme-toggle,
-.logout-btn {
+.logout-btn
+{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,9 +138,9 @@
   transition: all 0.3s ease;
 }
 
-/* Closed Sidebar → circular icon buttons */
 .seller-sidebar:not(.open) .theme-toggle,
-.seller-sidebar:not(.open) .logout-btn {
+.seller-sidebar:not(.open) .logout-btn
+{
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -142,24 +149,24 @@
   justify-content: center;
 }
 
-/* Open Sidebar → full-width text buttons */
 .seller-sidebar.open .theme-toggle,
-.seller-sidebar.open .logout-btn {
+.seller-sidebar.open .logout-btn
+{
   width: 100%;
   justify-content: flex-start;
   border: 1px solid transparent;
   padding: 0.6rem 0.7rem;
 }
 
-/* Hover Effect */
 .theme-toggle:hover,
-.logout-btn:hover {
+.logout-btn:hover
+{
   background: var(--hover-color);
   color: #fff;
 }
 
-/* --- Logo Icon when sidebar closed --- */
-.sidebar-logo-icon {
+.sidebar-logo-icon
+{
   font-size: 1.5rem;
   color: var(--text-color);
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -169,13 +176,14 @@
   width: 28px;
 }
 
-.sidebar-logo-icon:hover {
+.sidebar-logo-icon:hover
+{
   transform: scale(1.1);
   opacity: 0.9;
 }
 
-/* --- Theme Variables --- */
-body.light {
+body.light
+{
   --sidebar-bg: #ffffff;
   --sidebar-text: #1e293b;
   --border-color: #d1d5db;
@@ -184,7 +192,8 @@ body.light {
   --accent-color: #3b82f6;
 }
 
-body.dark {
+body.dark
+{
   --sidebar-bg: #111827;
   --sidebar-text: #f9fafb;
   --border-color: #1f2937;
@@ -193,16 +202,16 @@ body.dark {
   --accent-color: #60a5fa;
 }
 
-/* === SELLER DASHBOARD LAYOUT === */
-.seller-layout {
+.seller-layout
+{
   display: flex;
   min-height: 100vh;
   transition: all 0.3s ease;
   background: var(--admin-bg);
 }
 
-/* Sidebar base */
-.seller-sidebar {
+.seller-sidebar
+{
   background: var(--sidebar-bg);
   color: var(--sidebar-text);
   width: 75px;
@@ -214,42 +223,46 @@ body.dark {
   z-index: 100;
 }
 
-.seller-sidebar.open {
+.seller-sidebar.open
+{
   width: 250px;
 }
 
-/* === MAIN CONTENT === */
-.seller-main {
+.seller-main
+{
   flex-grow: 1;
   transition: margin-left 0.3s ease;
   margin-left: 75px;
   padding: 2rem;
 }
 
-/* When sidebar open */
-.seller-layout.sidebar-open .seller-main {
+.seller-layout.sidebar-open .seller-main
+{
   margin-left: 250px;
 }
 
-/* === RESPONSIVE ADJUSTMENT === */
-@media (max-width: 768px) {
-  .seller-sidebar {
+@media (max-width: 768px)
+{
+  .seller-sidebar
+  {
     left: -250px;
     width: 250px;
   }
 
-  .seller-sidebar.open {
+  .seller-sidebar.open
+  {
     left: 0;
   }
 
-  .seller-main {
+  .seller-main
+  {
     margin-left: 0 !important;
     padding: 1rem;
     transition: transform 0.3s ease;
   }
 
-  /* Blur background when sidebar open on mobile */
-  .seller-layout.sidebar-open .seller-main {
+  .seller-layout.sidebar-open .seller-main
+  {
     opacity: 0.8;
     pointer-events: none;
   }
